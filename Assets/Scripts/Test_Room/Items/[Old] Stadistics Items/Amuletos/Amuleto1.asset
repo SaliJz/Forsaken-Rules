@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 174d2dc184576af458b3e60b73f88392, type: 3}
+  m_Name: Amuleto1
+  m_EditorClassIdentifier: 
+  itemName: Amuleto de aturdimiento
+  description: Probabilidad de aturdir al enemigo con ataques a melee o a distancia
+  cost: 0
+  benefits: []
+  drawbacks: []
+  category: 2
+  rarity: 0
+  isAmulet: 1
+  isTemporary: 0
+  isByRooms: 0
+  temporaryDuration: 0
+  temporaryRooms: 0
+  itemIcon: {fileID: 1370017201, guid: 54abeae3a004b594ba01a4bafbb9ecfd, type: 3}
+  behavioralEffects:
+  - {fileID: 11400000, guid: 520f3ab2b5cb8c44786ecdb24360edd5, type: 2}

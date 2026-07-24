@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 174d2dc184576af458b3e60b73f88392, type: 3}
+  m_Name: InventoryTest#6
+  m_EditorClassIdentifier: 
+  itemName: "Marca del Ca\xEDdo"
+  description: Una marca que te debilita gravemente pero otorga poder.
+  cost: 20
+  benefits:
+  - type: 11
+    amount: 150
+    isPercentage: 1
+  - type: 20
+    amount: 25
+    isPercentage: 0
+  drawbacks:
+  - type: 0
+    amount: 50
+    isPercentage: 1
+  - type: 1
+    amount: 30
+    isPercentage: 1
+  - type: 14
+    amount: 20
+    isPercentage: 1
+  category: 5
+  rarity: 3
+  isAmulet: 0
+  isTemporary: 0
+  temporaryDuration: 0
+  temporaryRooms: 0
+  itemIcon: {fileID: -408040149, guid: 485e026d9e7526342bb8e48e893804e1, type: 3}
+  behavioralEffects: []

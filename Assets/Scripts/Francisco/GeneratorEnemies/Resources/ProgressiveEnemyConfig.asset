@@ -1,0 +1,84 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e732b59aa67a64345a7569ec530effc7, type: 3}
+  m_Name: ProgressiveEnemyConfig
+  m_EditorClassIdentifier: 
+  progressionLevels:
+  - startRoomNumber: 1
+    GenerationMode: 1
+    minWaves: 2
+    maxWaves: 4
+    timeBetweenWaves: 3
+    minEnemyCountPerWave: 4
+    maxEnemyCountPerWave: 5
+    availableEnemyPool: []
+    totalDifficultyMultiplier: 0
+    predefinedCombinations:
+    - CombinationName: Experimental001
+      waves:
+      - enemiesInWave:
+        - EnemyPrefab: {fileID: 3837119024263144154, guid: 05f56586a38c92741809393681643a36, type: 3}
+          Count: 2
+        - EnemyPrefab: {fileID: 8808396831070465598, guid: 6a9c40a5b41e7164cae558c10607ec40, type: 3}
+          Count: 1
+      - enemiesInWave:
+        - EnemyPrefab: {fileID: 3146469569994849149, guid: f7b5d53fc2f39ec478318f5eea6464f1, type: 3}
+          Count: 6
+        - EnemyPrefab: {fileID: 7967318150890097738, guid: 9d27d6984127f9f44b8fb3ba978cfa8e, type: 3}
+          Count: 2
+      timeBetweenWaves: 1
+    - CombinationName: Experimental002
+      waves:
+      - enemiesInWave:
+        - EnemyPrefab: {fileID: 3146469569994849149, guid: f7b5d53fc2f39ec478318f5eea6464f1, type: 3}
+          Count: 3
+        - EnemyPrefab: {fileID: 3776010021068202972, guid: a0a395e3a2799904882a94cbeb97fd51, type: 3}
+          Count: 2
+      - enemiesInWave:
+        - EnemyPrefab: {fileID: 7967318150890097738, guid: 9d27d6984127f9f44b8fb3ba978cfa8e, type: 3}
+          Count: 2
+        - EnemyPrefab: {fileID: 8508571803709799617, guid: 21898f260c6b99447a0fabac43b260f1, type: 3}
+          Count: 3
+      - enemiesInWave:
+        - EnemyPrefab: {fileID: 8508571803709799617, guid: 21898f260c6b99447a0fabac43b260f1, type: 3}
+          Count: 2
+        - EnemyPrefab: {fileID: 3837119024263144154, guid: 05f56586a38c92741809393681643a36, type: 3}
+          Count: 1
+      timeBetweenWaves: 1
+    - CombinationName: Experimental003
+      waves:
+      - enemiesInWave:
+        - EnemyPrefab: {fileID: 3146469569994849149, guid: f7b5d53fc2f39ec478318f5eea6464f1, type: 3}
+          Count: 2
+        - EnemyPrefab: {fileID: 7967318150890097738, guid: 9d27d6984127f9f44b8fb3ba978cfa8e, type: 3}
+          Count: 2
+      - enemiesInWave:
+        - EnemyPrefab: {fileID: 3776010021068202972, guid: a0a395e3a2799904882a94cbeb97fd51, type: 3}
+          Count: 2
+        - EnemyPrefab: {fileID: 8508571803709799617, guid: 21898f260c6b99447a0fabac43b260f1, type: 3}
+          Count: 2
+      timeBetweenWaves: 1
+    - CombinationName: Experimental004
+      waves:
+      - enemiesInWave:
+        - EnemyPrefab: {fileID: 3146469569994849149, guid: f7b5d53fc2f39ec478318f5eea6464f1, type: 3}
+          Count: 2
+        - EnemyPrefab: {fileID: 7967318150890097738, guid: 9d27d6984127f9f44b8fb3ba978cfa8e, type: 3}
+          Count: 2
+        - EnemyPrefab: {fileID: 8508571803709799617, guid: 21898f260c6b99447a0fabac43b260f1, type: 3}
+          Count: 2
+      - enemiesInWave:
+        - EnemyPrefab: {fileID: 3776010021068202972, guid: a0a395e3a2799904882a94cbeb97fd51, type: 3}
+          Count: 2
+        - EnemyPrefab: {fileID: 8508571803709799617, guid: 21898f260c6b99447a0fabac43b260f1, type: 3}
+          Count: 2
+      timeBetweenWaves: 1

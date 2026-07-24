@@ -1,0 +1,54 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &9196824554222932689
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2336295991675207033}
+  - component: {fileID: 8346008476826383372}
+  m_Layer: 0
+  m_Name: ItemEffectsPool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2336295991675207033
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9196824554222932689}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 241.96498, y: 5.4419947, z: 268.1248}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8346008476826383372
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9196824554222932689}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2192fa22fd0f6b6409795606c7f9b34b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dashCirclePrefab: {fileID: 5367060582354390641, guid: 131f664cc686f464383eb21e2f995b5e, type: 3}
+  dashPoolSize: 5
+  smallSpikePrefab: {fileID: 8447674756652148179, guid: 425e180227974194195409b333bc9b1f, type: 3}
+  smallSpikePoolSize: 60
+  largeSpikePrefab: {fileID: 18565707977423876, guid: 2f5ba42e001bad94abc88d85e442ea5e, type: 3}
+  largeSpikePoolSize: 30
+  kaiWavePrefab: {fileID: 6128498794640329534, guid: 3af8e71a51ffb90479cb704f71cb6b6c, type: 3}
+  kaiWavePoolSize: 15

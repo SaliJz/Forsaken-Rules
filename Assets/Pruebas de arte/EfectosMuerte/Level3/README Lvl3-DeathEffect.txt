@@ -1,0 +1,1 @@
+Implementar la logica de este script en los enemigos de nivel 3, basicamente hace que su valor de DissolveAmount vaya de 1 a 0, haciendo que desaparezcan

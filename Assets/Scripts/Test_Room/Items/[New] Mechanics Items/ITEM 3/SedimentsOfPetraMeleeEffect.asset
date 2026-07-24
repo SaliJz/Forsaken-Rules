@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99b54d2542b345748b1a0318279ad6b9, type: 3}
+  m_Name: SedimentsOfPetraMeleeEffect
+  m_EditorClassIdentifier: 
+  EffectID: intento
+  effectDescription: 
+  typeEffect: 2
+  category: 0
+  largeSpikeDamagePercent: 0.25
+  largeSpikeDuration: 0.3
+  largeSpikeCount: 3
+  spikeSpreadAngle: 30
+  spikeForwardDistance: 4
+  spikeRandomDelayMin: 0
+  spikeRandomDelayMax: 0.12
+  largeSpikeAngle: 25
+  meleeSpikeScale: 2
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 8
+  groundRayOriginHeight: 10
+  groundRayMaxDistance: 30
+  groundSurfaceOffset: 0.02

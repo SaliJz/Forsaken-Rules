@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9011ec83c1c8e1f4b946ae6c6b208d39, type: 3}
+  m_Name: Player_CurrentStats
+  m_EditorClassIdentifier: 
+  maxHealth: 100
+  currentHealth: 100
+  moveSpeed: 10
+  gravity: -9.81
+  attackDamage: 1
+  attackSpeed: 1
+  meleeAttackDamage: 4
+  meleeSpeed: 1
+  meleeRadius: 1.8
+  shieldAttackDamage: 4
+  shieldSpeed: 24
+  shieldMaxDistance: 12
+  shieldMaxRebounds: 1
+  shieldReboundRadius: 15
+  HealthDrainAmount: 0
+  lifestealOnKillAmount: 0
+  isShieldBlockUpgradeActive: 0
+  healthPerRoomRegenBase: 0
+  shopPriceReductionBase: 0
+  luckStackBase: 0
+  criticalChanceBase: 0
+  criticalDamageMultiplierBase: 0
+  dashRangeMultiplierBase: 0
+  dashRangeFlatBonusBase: 0
+  damageTakenBase: 100
+  knockbackReceivedBase: 0
+  dashCooldownPostBase: 0
+  meleeComboDisplacementBase: 1
+  shieldPushForceBase: 0
+  shieldReturnSpeedBase: 1
+  staminaConsumptionBase: 1

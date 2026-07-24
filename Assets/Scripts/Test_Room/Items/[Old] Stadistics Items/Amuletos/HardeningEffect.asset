@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94887791e6238d14bb1925cb471dcb28, type: 3}
+  m_Name: HardeningEffect
+  m_EditorClassIdentifier: 
+  EffectID: Endurecimiento
+  effectDescription: "Refuerza la defensa y otorga vida temporal al eliminar enemigos,
+    sustituyendo la curaci\xF3n permanente por una protecci\xF3n ef\xEDmera."
+  category: 1
+  damageReductionAmount: 0.15
+  temporaryHealthPerKill: 10
+  maxTemporaryHealth: 30

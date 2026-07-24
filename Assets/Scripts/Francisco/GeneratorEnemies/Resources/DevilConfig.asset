@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a858db9fe57acf41836f42e045ae42d, type: 3}
+  m_Name: DevilConfig
+  m_EditorClassIdentifier: 
+  CooldownInRooms: 2
+  MaxCleanRoomsCondition: 2
+  AuraProbability: 0.75
+  AuraEnemyCoveragePercent: 0.7
+  AuraEnemyHealthReduction: 0.2
+  HealthRewardPerAuraEnemyKill: 2
+  FrenzySpeedIncrease: 0.15
+  HardeningDamageReduction: 0.2
+  HardeningHealthRegenPerSecond: 0.05
+  StunningCritDamageIncrease: 0.5
+  StunningStunChance: 0.2
+  ExplosiveDamagePercent: 0.2
+  ExplosiveRadius: 10
+  ExplosiveVFXPrefab: {fileID: 5545404414370365311, guid: c8a26f15ed66d144c9f460d236549f40, type: 3}
+  ResurrectionChance: 0.3
+  ResurrectionSplitCount: 3
+  EscurridizoLifeTime: 5
+  EscurridizoPrefab: {fileID: 1531481768560991545, guid: e397df22cf53c3344b818d8a7502ca70, type: 3}
+  SlowPercent: 0.1
+  SlowDuration: 5
+  SlowImpactDamage: 1
+  PoisonDuration: 1
+  PoisonFrequency: 4
+  PoisonDamagePerTick: 0.25
+  ControlImpactDamage: 1
+  AbyssalConfusion_Chance: 0.125
+  FloorOfTheDamned_Chance: 0.25
+  DeceptiveDarkness_Chance: 0.25
+  SealedLuck_Chance: 0.0625
+  WitheredBloodthirst_Chance: 0.125
+  InfernalJudgement_Chance: 0.1875

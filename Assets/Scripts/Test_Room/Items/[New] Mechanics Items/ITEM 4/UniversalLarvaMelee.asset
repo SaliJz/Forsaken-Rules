@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 174d2dc184576af458b3e60b73f88392, type: 3}
+  m_Name: UniversalLarvaMelee
+  m_EditorClassIdentifier: 
+  itemName: "Esquirla Consciente - Mel\xE9"
+  description: "Eliminar enemigos con mel\xE9 invoca 3 esquirlas kamikaze que persiguen
+    a los objetivos m\xE1s cercanos."
+  cost: 35
+  benefits: []
+  drawbacks: []
+  category: 0
+  rarity: 1
+  individualRarityWeight: 3.5
+  isAmulet: 0
+  isTemporary: 0
+  isByRooms: 0
+  temporaryDuration: 0
+  temporaryRooms: 0
+  hasEffectCategory: 1
+  effectCategory: 2
+  itemIcon: {fileID: -1593178395, guid: 5bc2ae977549b384997e019ff4ba3832, type: 3}
+  ShopItemPrefab: {fileID: 0}
+  outlineNormal: {fileID: 0}
+  outlineRaro: {fileID: 0}
+  outlineSuperRaro: {fileID: 0}
+  behavioralEffects:
+  - {fileID: 11400000, guid: ffd4792c69a76e04fb138af2a3f5eece, type: 2}

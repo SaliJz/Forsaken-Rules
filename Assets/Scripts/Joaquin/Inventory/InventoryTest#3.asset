@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 174d2dc184576af458b3e60b73f88392, type: 3}
+  m_Name: InventoryTest#3
+  m_EditorClassIdentifier: 
+  itemName: "Poci\xF3n de Velocidad"
+  description: Aumenta tu velocidad temporal.
+  cost: 8
+  benefits:
+  - type: 1
+    amount: 30
+    isPercentage: 1
+  drawbacks: []
+  category: 2
+  rarity: 1
+  isAmulet: 0
+  isTemporary: 1
+  temporaryDuration: 60
+  temporaryRooms: 0
+  itemIcon: {fileID: 1602785180, guid: 64ab981c1bad9d54db588a7213be871d, type: 3}
+  behavioralEffects: []

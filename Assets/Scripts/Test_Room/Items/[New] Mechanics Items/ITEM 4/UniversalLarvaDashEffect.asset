@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76f8fea065fc7574fa3bf683683cc0c2, type: 3}
+  m_Name: UniversalLarvaDashEffect
+  m_EditorClassIdentifier: 
+  EffectID: Larva Dash
+  effectDescription: 
+  typeEffect: 0
+  category: 0
+  larvaHealth: 1
+  resetIdleTime: 1
+  larvaCooldown: 0.3
+  dashLevels:
+  - spawns:
+    - larvaPrefab: {fileID: 1531481768560991545, guid: efd7035a8a937a94a986d7e7cb12954e, type: 3}
+      spawnCount: 1
+  - spawns:
+    - larvaPrefab: {fileID: 1531481768560991545, guid: 148afcd738e11e74ea9094d0edfff6bd, type: 3}
+      spawnCount: 1
+  - spawns:
+    - larvaPrefab: {fileID: 1531481768560991545, guid: efd7035a8a937a94a986d7e7cb12954e, type: 3}
+      spawnCount: 2
+  - spawns:
+    - larvaPrefab: {fileID: 1531481768560991545, guid: 148afcd738e11e74ea9094d0edfff6bd, type: 3}
+      spawnCount: 2

@@ -1,0 +1,221 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e732b59aa67a64345a7569ec530effc7, type: 3}
+  m_Name: Nivel2
+  m_EditorClassIdentifier: 
+  progressionLevels:
+  - startRoomNumber: 1
+    GenerationMode: 1
+    minWaves: 2
+    maxWaves: 4
+    timeBetweenWaves: 3
+    minEnemyCountPerWave: 4
+    maxEnemyCountPerWave: 5
+    availableEnemyPool: []
+    totalDifficultyMultiplier: 1
+    predefinedCombinations:
+    - CombinationName: Wave001
+      waves:
+      - enemiesInWave:
+        - EnemyPrefab: {fileID: 4238975053663158039, guid: d10532ab209a0c94392fa21ed4820f26, type: 3}
+          Count: 4
+          SpawnMode: 0
+      - enemiesInWave:
+        - EnemyPrefab: {fileID: 4238975053663158039, guid: d10532ab209a0c94392fa21ed4820f26, type: 3}
+          Count: 2
+          SpawnMode: 0
+        - EnemyPrefab: {fileID: 1927996590778350982, guid: 5702751f228ca784096055ec043e7893, type: 3}
+          Count: 2
+          SpawnMode: 0
+      - enemiesInWave:
+        - EnemyPrefab: {fileID: 1927996590778350982, guid: 5702751f228ca784096055ec043e7893, type: 3}
+          Count: 5
+          SpawnMode: 0
+      timeBetweenWaves: 1
+  - startRoomNumber: 3
+    GenerationMode: 1
+    minWaves: 2
+    maxWaves: 4
+    timeBetweenWaves: 3
+    minEnemyCountPerWave: 4
+    maxEnemyCountPerWave: 5
+    availableEnemyPool: []
+    totalDifficultyMultiplier: 1
+    predefinedCombinations:
+    - CombinationName: Wave002
+      waves:
+      - enemiesInWave:
+        - EnemyPrefab: {fileID: 4238975053663158039, guid: d10532ab209a0c94392fa21ed4820f26, type: 3}
+          Count: 3
+          SpawnMode: 0
+        - EnemyPrefab: {fileID: 3248756346906325430, guid: 196eedab17c255749b2cfddd17457619, type: 3}
+          Count: 1
+          SpawnMode: 0
+      - enemiesInWave:
+        - EnemyPrefab: {fileID: 4238975053663158039, guid: d10532ab209a0c94392fa21ed4820f26, type: 3}
+          Count: 2
+          SpawnMode: 0
+        - EnemyPrefab: {fileID: 1927996590778350982, guid: 5702751f228ca784096055ec043e7893, type: 3}
+          Count: 1
+          SpawnMode: 0
+        - EnemyPrefab: {fileID: 1927996590778350982, guid: c3b7cac71852c5c47a24b019fbf12fce, type: 3}
+          Count: 1
+          SpawnMode: 0
+        - EnemyPrefab: {fileID: 3248756346906325430, guid: 196eedab17c255749b2cfddd17457619, type: 3}
+          Count: 1
+          SpawnMode: 0
+      - enemiesInWave:
+        - EnemyPrefab: {fileID: 4238975053663158039, guid: d10532ab209a0c94392fa21ed4820f26, type: 3}
+          Count: 3
+          SpawnMode: 0
+        - EnemyPrefab: {fileID: 1927996590778350982, guid: c3b7cac71852c5c47a24b019fbf12fce, type: 3}
+          Count: 1
+          SpawnMode: 0
+        - EnemyPrefab: {fileID: 3248756346906325430, guid: 196eedab17c255749b2cfddd17457619, type: 3}
+          Count: 2
+          SpawnMode: 0
+      timeBetweenWaves: 1
+  - startRoomNumber: 4
+    GenerationMode: 1
+    minWaves: 2
+    maxWaves: 4
+    timeBetweenWaves: 3
+    minEnemyCountPerWave: 4
+    maxEnemyCountPerWave: 5
+    availableEnemyPool: []
+    totalDifficultyMultiplier: 0
+    predefinedCombinations:
+    - CombinationName: Wave003
+      waves:
+      - enemiesInWave:
+        - EnemyPrefab: {fileID: 3248756346906325430, guid: 196eedab17c255749b2cfddd17457619, type: 3}
+          Count: 2
+          SpawnMode: 0
+        - EnemyPrefab: {fileID: 4238975053663158039, guid: d10532ab209a0c94392fa21ed4820f26, type: 3}
+          Count: 1
+          SpawnMode: 0
+        - EnemyPrefab: {fileID: 1927996590778350982, guid: 5702751f228ca784096055ec043e7893, type: 3}
+          Count: 2
+          SpawnMode: 0
+      - enemiesInWave:
+        - EnemyPrefab: {fileID: 4238975053663158039, guid: d10532ab209a0c94392fa21ed4820f26, type: 3}
+          Count: 2
+          SpawnMode: 0
+        - EnemyPrefab: {fileID: 1927996590778350982, guid: c3b7cac71852c5c47a24b019fbf12fce, type: 3}
+          Count: 2
+          SpawnMode: 0
+        - EnemyPrefab: {fileID: 3248756346906325430, guid: 196eedab17c255749b2cfddd17457619, type: 3}
+          Count: 1
+          SpawnMode: 0
+        - EnemyPrefab: {fileID: 335325190854564059, guid: 2976352416b724b4a95ba58cc145efa3, type: 3}
+          Count: 1
+          SpawnMode: 0
+      - enemiesInWave:
+        - EnemyPrefab: {fileID: 4238975053663158039, guid: d10532ab209a0c94392fa21ed4820f26, type: 3}
+          Count: 3
+          SpawnMode: 0
+        - EnemyPrefab: {fileID: 1927996590778350982, guid: 5702751f228ca784096055ec043e7893, type: 3}
+          Count: 2
+          SpawnMode: 0
+        - EnemyPrefab: {fileID: 335325190854564059, guid: 2976352416b724b4a95ba58cc145efa3, type: 3}
+          Count: 2
+          SpawnMode: 0
+      timeBetweenWaves: 1
+  - startRoomNumber: 5
+    GenerationMode: 1
+    minWaves: 2
+    maxWaves: 4
+    timeBetweenWaves: 3
+    minEnemyCountPerWave: 4
+    maxEnemyCountPerWave: 5
+    availableEnemyPool: []
+    totalDifficultyMultiplier: 1
+    predefinedCombinations:
+    - CombinationName: Wave002
+      waves:
+      - enemiesInWave:
+        - EnemyPrefab: {fileID: 4238975053663158039, guid: d10532ab209a0c94392fa21ed4820f26, type: 3}
+          Count: 3
+          SpawnMode: 0
+        - EnemyPrefab: {fileID: 3248756346906325430, guid: 196eedab17c255749b2cfddd17457619, type: 3}
+          Count: 1
+          SpawnMode: 0
+      - enemiesInWave:
+        - EnemyPrefab: {fileID: 4238975053663158039, guid: d10532ab209a0c94392fa21ed4820f26, type: 3}
+          Count: 2
+          SpawnMode: 0
+        - EnemyPrefab: {fileID: 1927996590778350982, guid: 5702751f228ca784096055ec043e7893, type: 3}
+          Count: 1
+          SpawnMode: 0
+        - EnemyPrefab: {fileID: 1927996590778350982, guid: c3b7cac71852c5c47a24b019fbf12fce, type: 3}
+          Count: 1
+          SpawnMode: 0
+        - EnemyPrefab: {fileID: 3248756346906325430, guid: 196eedab17c255749b2cfddd17457619, type: 3}
+          Count: 1
+          SpawnMode: 0
+      - enemiesInWave:
+        - EnemyPrefab: {fileID: 4238975053663158039, guid: d10532ab209a0c94392fa21ed4820f26, type: 3}
+          Count: 3
+          SpawnMode: 0
+        - EnemyPrefab: {fileID: 1927996590778350982, guid: c3b7cac71852c5c47a24b019fbf12fce, type: 3}
+          Count: 1
+          SpawnMode: 0
+        - EnemyPrefab: {fileID: 3248756346906325430, guid: 196eedab17c255749b2cfddd17457619, type: 3}
+          Count: 2
+          SpawnMode: 0
+      timeBetweenWaves: 1
+  - startRoomNumber: 6
+    GenerationMode: 1
+    minWaves: 2
+    maxWaves: 4
+    timeBetweenWaves: 3
+    minEnemyCountPerWave: 4
+    maxEnemyCountPerWave: 5
+    availableEnemyPool: []
+    totalDifficultyMultiplier: 0
+    predefinedCombinations:
+    - CombinationName: Wave003
+      waves:
+      - enemiesInWave:
+        - EnemyPrefab: {fileID: 3248756346906325430, guid: 196eedab17c255749b2cfddd17457619, type: 3}
+          Count: 2
+          SpawnMode: 0
+        - EnemyPrefab: {fileID: 4238975053663158039, guid: d10532ab209a0c94392fa21ed4820f26, type: 3}
+          Count: 1
+          SpawnMode: 0
+        - EnemyPrefab: {fileID: 1927996590778350982, guid: 5702751f228ca784096055ec043e7893, type: 3}
+          Count: 2
+          SpawnMode: 0
+      - enemiesInWave:
+        - EnemyPrefab: {fileID: 4238975053663158039, guid: d10532ab209a0c94392fa21ed4820f26, type: 3}
+          Count: 2
+          SpawnMode: 0
+        - EnemyPrefab: {fileID: 1927996590778350982, guid: c3b7cac71852c5c47a24b019fbf12fce, type: 3}
+          Count: 2
+          SpawnMode: 0
+        - EnemyPrefab: {fileID: 3248756346906325430, guid: 196eedab17c255749b2cfddd17457619, type: 3}
+          Count: 1
+          SpawnMode: 0
+        - EnemyPrefab: {fileID: 335325190854564059, guid: 2976352416b724b4a95ba58cc145efa3, type: 3}
+          Count: 1
+          SpawnMode: 0
+      - enemiesInWave:
+        - EnemyPrefab: {fileID: 4238975053663158039, guid: d10532ab209a0c94392fa21ed4820f26, type: 3}
+          Count: 3
+          SpawnMode: 0
+        - EnemyPrefab: {fileID: 1927996590778350982, guid: 5702751f228ca784096055ec043e7893, type: 3}
+          Count: 2
+          SpawnMode: 0
+        - EnemyPrefab: {fileID: 335325190854564059, guid: 2976352416b724b4a95ba58cc145efa3, type: 3}
+          Count: 2
+          SpawnMode: 0
+      timeBetweenWaves: 1

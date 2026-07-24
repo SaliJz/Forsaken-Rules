@@ -1,0 +1,92 @@
+"Action Manifest"
+{
+	"configurations"
+	{
+		"controller_generic"
+		{
+			"0"
+			{
+				"path" "default_controller_config.vdf"
+			}
+		}
+	}
+	"actions"
+	{
+		"InGameControls"
+		{
+			"title"		"#Set_InGameControls"
+			"legacy_set"	"0"
+			"StickPadGyro"
+			{
+				"Move"
+				{
+					"title"		"#Action_Move"
+					"input_mode"	"joystick_move"
+				}
+				"Aim"
+				{
+					"title"		"#Action_Aim"
+					"input_mode"	"joystick_move"
+				}
+			}
+			"AnalogTrigger"
+			{
+			}
+			"Button"
+			{
+				"melee_attack"		{ "title" "#Action_MeleeAttack" }
+				"shield_throw"		{ "title" "#Action_ShieldThrow" }
+				"dash"			{ "title" "#Action_Dash" }
+				"interact"		{ "title" "#Action_Interact" }
+				"inventory"		{ "title" "#Action_Inventory" }
+				"activate_skill"	{ "title" "#Action_ActivateSkill" }
+				"defense"		{ "title" "#Action_Defense" }
+				"pause_menu"		{ "title" "#Action_PauseMenu" }
+				"advance_dialogue"	{ "title" "#Action_AdvanceDialogue" }
+			}
+		}
+		"MenuControls"
+		{
+			"title"		"#Set_MenuControls"
+			"legacy_set"	"0"
+			"Button"
+			{
+				"menu_up"	{ "title" "#Action_MenuUp" }
+				"menu_down"	{ "title" "#Action_MenuDown" }
+				"menu_left"	{ "title" "#Action_MenuLeft" }
+				"menu_right"	{ "title" "#Action_MenuRight" }
+				"menu_select"	{ "title" "#Action_MenuSelect" }
+				"menu_cancel"	{ "title" "#Action_MenuCancel" }
+				"menu_submit"	{ "title" "#Action_MenuSubmit" }
+				"pause_menu"	{ "title" "#Action_ReturnToGame" }
+			}
+		}
+	}
+	"localization"
+	{
+		"english"
+		{
+			"Set_InGameControls"	"In-Game Controls"
+			"Set_MenuControls"	"Menu Controls"
+			"Action_Move"		"Movement"
+			"Action_Aim"		"Aim"
+			"Action_MeleeAttack"	"Melee Attack"
+			"Action_ShieldThrow"	"Throw Shield"
+			"Action_Dash"		"Dash"
+			"Action_Interact"	"Interact"
+			"Action_Inventory"	"Inventory"
+			"Action_ActivateSkill"	"Activate Skill"
+			"Action_Defense"	"Defense"
+			"Action_PauseMenu"	"Pause Menu"
+			"Action_ReturnToGame"	"Return To Game"
+			"Action_AdvanceDialogue" "Advance Dialogue"
+			"Action_MenuUp"		"Up"
+			"Action_MenuDown"	"Down"
+			"Action_MenuLeft"	"Left"
+			"Action_MenuRight"	"Right"
+			"Action_MenuSelect"	"Select"
+			"Action_MenuCancel"	"Cancel"
+			"Action_MenuSubmit"	"Submit"
+		}
+	}
+}

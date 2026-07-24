@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf585f2f5315add4d93d4355ea4e5889, type: 3}
+  m_Name: SedimentsOfPetraEffect
+  m_EditorClassIdentifier: 
+  EffectID: Sedimentos de Petra
+  effectDescription: El escudo deja un rastro de estacas de tierra inclinadas. Los
+    ataques melee generan un abanico de picos frontales.
+  category: 0
+  smallSpikeDamagePercent: 1
+  smallSpikeDuration: 4
+  minDistanceBetweenSpikes: 1.5
+  smallSpikeTiltAngle: 20
+  trailMaterial: {fileID: -5575037680647899189, guid: 127fe90738b040f489d0e62bb57a4e0c, type: 3}
+  trailWidth: 0.25
+  trailColor: {r: 0.45, g: 0.28, b: 0.1, a: 0.75}
+  trailFadeDuration: 3
+  largeSpikeDamagePercent: 2
+  largeSpikeDuration: 0.3
+  largeSpikeCount: 3
+  spikeSpreadAngle: 30
+  spikeForwardDistance: 4
+  spikeRandomDelayMin: 0
+  spikeRandomDelayMax: 0.12
+  largeSpikeAngle: 25
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 128

@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6236d2e3c15249438f8491e595134b8, type: 3}
+  m_Name: SedimentsOfPetraDashEffect
+  m_EditorClassIdentifier: 
+  EffectID: Sedimentos de Petra - Impulso
+  effectDescription: 
+  typeEffect: 0
+  category: 0
+  dashSpikeDamagePercent: 0.03
+  dashSpikeDuration: 0.5
+  spikesPerBurst: 2
+  spawnSpacingMin: 1.5
+  burstDelayMin: 0
+  burstDelayMax: 0.09
+  initialDelay: 0.25
+  tiltAngleCenter: 20
+  tiltAngleSide: 35
+  maxSideYawAngle: 18
+  scaleMin: 0.7
+  scaleMax: 1.25
+  trailMaterial: {fileID: -5575037680647899189, guid: 9b456f2d92e0acd4ebc34ea7c1af26f1, type: 3}
+  trailWidth: 0.3
+  trailColor: {r: 0.45, g: 0.28, b: 0.1, a: 0.8}
+  trailFadeDuration: 2
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 8
+  groundRayOriginHeight: 10
+  groundRayMaxDistance: 30
+  groundSurfaceOffset: 0.02

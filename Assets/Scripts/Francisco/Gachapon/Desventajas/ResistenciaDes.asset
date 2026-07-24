@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 222afdbd4ac8db6449e5f7acaa1f4658, type: 3}
+  m_Name: ResistenciaDes
+  m_EditorClassIdentifier: 
+  effectName: Resistencia
+  rarity: 1
+  poolProbability: 1
+  advantageModifiers: []
+  disadvantageModifiers:
+  - statType: 14
+    modifierValue: 5
+    isPercentage: 1
+    durationType: 0
+    durationValue: 0
+  - statType: 14
+    modifierValue: 20
+    isPercentage: 1
+    durationType: 1
+    durationValue: 1

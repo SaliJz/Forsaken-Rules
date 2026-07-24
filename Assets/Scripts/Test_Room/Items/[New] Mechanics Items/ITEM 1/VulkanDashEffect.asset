@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 691c90b389e6e4c4abe287a6c2d21cfa, type: 3}
+  m_Name: VulkanDashEffect
+  m_EditorClassIdentifier: 
+  EffectID: Tierra Ardiente
+  effectDescription: Al dashear deja un circulo de tierra ardiente que se expande
+    y quema a los enemigos que permanecen en el.
+  typeEffect: 0
+  category: 0
+  damagePerSecond: 1
+  expandDuration: 0.4
+  maxRadius: 3
+  stayDuration: 1
+  tickInterval: 0.3
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 128

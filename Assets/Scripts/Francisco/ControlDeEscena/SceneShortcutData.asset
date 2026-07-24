@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35dba39b62ed4aa4089565c682b91673, type: 3}
+  m_Name: SceneShortcutData
+  m_EditorClassIdentifier: 
+  sceneTransitions:
+  - inputKey: 49
+    targetSceneName: MainMenu
+  - inputKey: 50
+    targetSceneName: TutorialCompleto
+  - inputKey: 51
+    targetSceneName: HUB
+  - inputKey: 52
+    targetSceneName: TestLevel
+  - inputKey: 53
+    targetSceneName: LVL02
+  - inputKey: 54
+    targetSceneName: LVL03
+  - inputKey: 55
+    targetSceneName: TestBoss1
+  - inputKey: 56
+    targetSceneName: TestBoss2
+  - inputKey: 57
+    targetSceneName: TestBoss3
+  - inputKey: 282
+    targetSceneName: TestEnemiesNew

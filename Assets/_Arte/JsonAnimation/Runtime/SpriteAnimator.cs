@@ -46,15 +46,15 @@ public class SpriteAnimator : MonoBehaviour
         {
             timer -= frameTime;
 
-            if(holdOnLastFrame && frameIndex >= currentAnim.frames.Length - 1) return;
+            if(holdOnLastFrame && frameIndex >= currentAnim.frames.Count - 1) return;
             
             frameIndex++;
 
-            if (frameIndex >= currentAnim.frames.Length)
+            if (frameIndex >= currentAnim.frames.Count)
             {
                 if(currentAnim.repeat == 0)
                 {
-                    frameIndex = currentAnim.frames.Length - 1;
+                    frameIndex = currentAnim.frames.Count - 1;
                     onAnimFinished?.Invoke();
                 }
                 else
@@ -75,7 +75,7 @@ public class SpriteAnimator : MonoBehaviour
     {
         if (currentAnim == null || currentAsset == null) return;
 
-        frameIndex = Mathf.Clamp(frameIndex, 0, currentAnim.frames.Length -1);
+        frameIndex = Mathf.Clamp(frameIndex, 0, currentAnim.frames.Count -1);
 
         sr.sprite = currentAnim.frames[frameIndex].sprite;
     }

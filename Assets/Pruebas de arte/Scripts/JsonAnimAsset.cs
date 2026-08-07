@@ -26,6 +26,8 @@ public class JsonAnimAsset : ScriptableObject
     }
 
     [Header("Generated Data (Persistant)")]
+    [HideInInspector] public AnimParser.NormAnimFile animData;
+
     [SerializeField] List<FrameSprite> framesList = new();
     [SerializeField] List<DirectionAnim> animList = new();
 

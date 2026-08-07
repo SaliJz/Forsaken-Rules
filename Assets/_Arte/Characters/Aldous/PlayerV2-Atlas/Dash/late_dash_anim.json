@@ -1,131 +1,64 @@
 {
-    "anims": [
+    "schema": "norm_v1",
+    "frameRate": 12,
+    "repeat": -1,
+    "framecount": 2,
+    "events": [],
+    "directions": [
         {
-            "key": "upright",
-            "type": "frames",
-            "repeat": -1,
-            "frameRate": 12,
+            "direction": "upright",
             "frames": [
-                {
-                    "key": "late_dash",
-                    "frame": "ldash_ur_1_tmp"
-                },
-                {
-                    "key": "late_dash",
-                    "frame": "ldash_ur_2_tmp"
-                }
+                "ldash_ur_1_tmp",
+                "ldash_ur_2_tmp"
             ]
         },
         {
-            "key": "upleft",
-            "type": "frames",
-            "repeat": -1,
-            "frameRate": 12,
+            "direction": "upleft",
             "frames": [
-                {
-                    "key": "late_dash",
-                    "frame": "ldash_ul_1_tmp"
-                },
-                {
-                    "key": "late_dash",
-                    "frame": "ldash_ul_2_tmp"
-                }
+                "ldash_ul_1_tmp",
+                "ldash_ul_2_tmp"
             ]
         },
         {
-            "key": "up",
-            "type": "frames",
-            "repeat": -1,
-            "frameRate": 12,
+            "direction": "up",
             "frames": [
-                {
-                    "key": "late_dash",
-                    "frame": "ldash_u_1_tmp"
-                },
-                {
-                    "key": "late_dash",
-                    "frame": "ldash_u_2_tmp"
-                }
+                "ldash_u_1_tmp",
+                "ldash_u_2_tmp"
             ]
         },
         {
-            "key": "right",
-            "type": "frames",
-            "repeat": -1,
-            "frameRate": 12,
+            "direction": "right",
             "frames": [
-                {
-                    "key": "late_dash",
-                    "frame": "ldash_r_1_tmp"
-                },
-                {
-                    "key": "late_dash",
-                    "frame": "ldash_r_2_tmp"
-                }
+                "ldash_r_1_tmp",
+                "ldash_r_2_tmp"
             ]
         },
         {
-            "key": "left",
-            "type": "frames",
-            "repeat": -1,
-            "frameRate": 12,
+            "direction": "left",
             "frames": [
-                {
-                    "key": "late_dash",
-                    "frame": "ldash_l_1_tmp"
-                },
-                {
-                    "key": "late_dash",
-                    "frame": "ldash_l_2_tmp"
-                }
+                "ldash_l_1_tmp",
+                "ldash_l_2_tmp"
             ]
         },
         {
-            "key": "downright",
-            "type": "frames",
-            "repeat": -1,
-            "frameRate": 12,
+            "direction": "downright",
             "frames": [
-                {
-                    "key": "late_dash",
-                    "frame": "ldash_dr_1_tmp"
-                },
-                {
-                    "key": "late_dash",
-                    "frame": "ldash_dr_2_tmp"
-                }
+                "ldash_dr_1_tmp",
+                "ldash_dr_2_tmp"
             ]
         },
         {
-            "key": "downleft",
-            "type": "frames",
-            "repeat": -1,
-            "frameRate": 12,
+            "direction": "downleft",
             "frames": [
-                {
-                    "key": "late_dash",
-                    "frame": "ldash_dl_1_tmp"
-                },
-                {
-                    "key": "late_dash",
-                    "frame": "ldash_dl_2_tmp"
-                }
+                "ldash_dl_1_tmp",
+                "ldash_dl_2_tmp"
             ]
         },
         {
-            "key": "down",
-            "type": "frames",
-            "repeat": -1,
-            "frameRate": 12,
+            "direction": "down",
             "frames": [
-                {
-                    "key": "late_dash",
-                    "frame": "ldash_d_1_tmp"
-                },
-                {
-                    "key": "late_dash",
-                    "frame": "ldash_d_2_tmp"
-                }
+                "ldash_d_1_tmp",
+                "ldash_d_2_tmp"
             ]
         }
     ]

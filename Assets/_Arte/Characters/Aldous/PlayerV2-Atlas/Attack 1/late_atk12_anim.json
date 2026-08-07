@@ -1,243 +1,75 @@
 {
-    "anims": [
+    "schema": "norm_v1",
+    "frameRate": 12,
+    "repeat": 0,
+    "framecount": 10,
+    "events": [
         {
-            "key": "upright",
-            "type": "frames",
-            "repeat": 0,
-            "frameRate": 12,
+            "frameIndex": 1,
+            "keys": [
+                "MeleeSlash_1"
+            ]
+        }
+    ],
+    "directions": [
+        {
+            "direction": "upright",
             "frames": [
-                {
-                    "key": "late_atk12",
-                    "frame": "latk1_ur_6_tmp",
-                    "evnt": []
-                },
-                {
-                    "key": "late_atk12",
-                    "frame": "latk1_ur_8_tmp",
-                    "evnt": [
-                        "MeleeSlash_1"
-                    ]
-                },
-                {
-                    "key": "late_atk12",
-                    "frame": "latk1_ur_9_tmp",
-                    "evnt": []
-                },
-                {
-                    "key": "late_atk12",
-                    "frame": "latk1_ur_10_tmp",
-                    "evnt": []
-                },
-                {
-                    "key": "late_atk12",
-                    "frame": "latk1_ur_11_tmp",
-                    "evnt": []
-                },
-                {
-                    "key": "late_atk12",
-                    "frame": "latk1_ur_12_tmp",
-                    "evnt": []
-                },
-                {
-                    "key": "late_atk12",
-                    "frame": "latk1_ur_13_tmp",
-                    "evnt": []
-                },
-                {
-                    "key": "late_atk12",
-                    "frame": "latk1_ur_14_tmp",
-                    "evnt": []
-                },
-                {
-                    "key": "late_atk12",
-                    "frame": "latk1_ur_15_tmp",
-                    "evnt": []
-                },
-                {
-                    "key": "late_atk12",
-                    "frame": "latk1_ur_16_tmp",
-                    "evnt": []
-                }
+                "latk1_ur_6_tmp",
+                "latk1_ur_8_tmp",
+                "latk1_ur_9_tmp",
+                "latk1_ur_10_tmp",
+                "latk1_ur_11_tmp",
+                "latk1_ur_12_tmp",
+                "latk1_ur_13_tmp",
+                "latk1_ur_14_tmp",
+                "latk1_ur_15_tmp",
+                "latk1_ur_16_tmp"
             ]
         },
         {
-            "key": "upleft",
-            "type": "frames",
-            "repeat": 0,
-            "frameRate": 12,
+            "direction": "upleft",
             "frames": [
-                {
-                    "key": "late_atk12",
-                    "frame": "latk1_ul_6_tmp",
-                    "evnt": []
-                },
-                {
-                    "key": "late_atk12",
-                    "frame": "latk1_ul_8_tmp",
-                    "evnt": [
-                        "MeleeSlash_1"
-                    ]
-                },
-                {
-                    "key": "late_atk12",
-                    "frame": "latk1_ul_9_tmp",
-                    "evnt": []
-                },
-                {
-                    "key": "late_atk12",
-                    "frame": "latk1_ul_10_tmp",
-                    "evnt": []
-                },
-                {
-                    "key": "late_atk12",
-                    "frame": "latk1_ul_11_tmp",
-                    "evnt": []
-                },
-                {
-                    "key": "late_atk12",
-                    "frame": "latk1_ul_12_tmp",
-                    "evnt": []
-                },
-                {
-                    "key": "late_atk12",
-                    "frame": "latk1_ul_13_tmp",
-                    "evnt": []
-                },
-                {
-                    "key": "late_atk12",
-                    "frame": "latk1_ul_14_tmp",
-                    "evnt": []
-                },
-                {
-                    "key": "late_atk12",
-                    "frame": "latk1_ul_15_tmp",
-                    "evnt": []
-                },
-                {
-                    "key": "late_atk12",
-                    "frame": "latk1_ul_16_tmp",
-                    "evnt": []
-                }
+                "latk1_ul_6_tmp",
+                "latk1_ul_8_tmp",
+                "latk1_ul_9_tmp",
+                "latk1_ul_10_tmp",
+                "latk1_ul_11_tmp",
+                "latk1_ul_12_tmp",
+                "latk1_ul_13_tmp",
+                "latk1_ul_14_tmp",
+                "latk1_ul_15_tmp",
+                "latk1_ul_16_tmp"
             ]
         },
         {
-            "key": "up",
-            "type": "frames",
-            "repeat": 0,
-            "frameRate": 12,
+            "direction": "up",
             "frames": [
-                {
-                    "key": "late_atk12",
-                    "frame": "latk1_u_6_tmp",
-                    "evnt": []
-                },
-                {
-                    "key": "late_atk12",
-                    "frame": "latk1_u_8_tmp",
-                    "evnt": [
-                        "MeleeSlash_1"
-                    ]
-                },
-                {
-                    "key": "late_atk12",
-                    "frame": "latk1_u_9_tmp",
-                    "evnt": []
-                },
-                {
-                    "key": "late_atk12",
-                    "frame": "latk1_u_10_tmp",
-                    "evnt": []
-                },
-                {
-                    "key": "late_atk12",
-                    "frame": "latk1_u_11_tmp",
-                    "evnt": []
-                },
-                {
-                    "key": "late_atk12",
-                    "frame": "latk1_u_12_tmp",
-                    "evnt": []
-                },
-                {
-                    "key": "late_atk12",
-                    "frame": "latk1_u_13_tmp",
-                    "evnt": []
-                },
-                {
-                    "key": "late_atk12",
-                    "frame": "latk1_u_14_tmp",
-                    "evnt": []
-                },
-                {
-                    "key": "late_atk12",
-                    "frame": "latk1_u_15_tmp",
-                    "evnt": []
-                },
-                {
-                    "key": "late_atk12",
-                    "frame": "latk1_u_16_tmp",
-                    "evnt": []
-                }
+                "latk1_u_6_tmp",
+                "latk1_u_8_tmp",
+                "latk1_u_9_tmp",
+                "latk1_u_10_tmp",
+                "latk1_u_11_tmp",
+                "latk1_u_12_tmp",
+                "latk1_u_13_tmp",
+                "latk1_u_14_tmp",
+                "latk1_u_15_tmp",
+                "latk1_u_16_tmp"
             ]
         },
         {
-            "key": "right",
-            "type": "frames",
-            "repeat": 0,
-            "frameRate": 12,
+            "direction": "right",
             "frames": [
-                {
-                    "key": "late_atk12",
-                    "frame": "latk1_r_6_tmp",
-                    "evnt": []
-                },
-                {
-                    "key": "late_atk12",
-                    "frame": "latk1_r_8_tmp",
-                    "evnt": [
-                        "MeleeSlash_1"
-                    ]
-                },
-                {
-                    "key": "late_atk12",
-                    "frame": "latk1_r_9_tmp",
-                    "evnt": []
-                },
-                {
-                    "key": "late_atk12",
-                    "frame": "latk1_r_10_tmp",
-                    "evnt": []
-                },
-                {
-                    "key": "late_atk12",
-                    "frame": "latk1_r_11_tmp",
-                    "evnt": []
-                },
-                {
-                    "key": "late_atk12",
-                    "frame": "latk1_r_12_tmp",
-                    "evnt": []
-                },
-                {
-                    "key": "late_atk12",
-                    "frame": "latk1_r_13_tmp",
-                    "evnt": []
-                },
-                {
-                    "key": "late_atk12",
-                    "frame": "latk1_r_14_tmp",
-                    "evnt": []
-                },
-                {
-                    "key": "late_atk12",
-                    "frame": "latk1_r_15_tmp",
-                    "evnt": []
-                },
-                {
-                    "key": "late_atk12",
-                    "frame": "latk1_r_16_tmp",
-                    "evnt": []
-                }
+                "latk1_r_6_tmp",
+                "latk1_r_8_tmp",
+                "latk1_r_9_tmp",
+                "latk1_r_10_tmp",
+                "latk1_r_11_tmp",
+                "latk1_r_12_tmp",
+                "latk1_r_13_tmp",
+                "latk1_r_14_tmp",
+                "latk1_r_15_tmp",
+                "latk1_r_16_tmp"
             ]
         }
     ]

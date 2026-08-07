@@ -7,9 +7,9 @@ using UnityEngine;
 public class JsonAnimmAssetInspector : Editor
 {
     #region Data & References
-    AnimJson.AnimJsonData animData;
-    AtlasJson.AtlasData atlasData;
-    Dictionary<string, AtlasJson.AtlasFrame> atlasLookup;
+    // AnimParser.NormAnimFile animData;
+    AtlasParser.AtlasFile atlasData;
+    Dictionary<string, AtlasParser.AtlasFrame> atlasLookup;
 
     JsonAnimAsset asset;
     SerializedProperty spriteSheetProp;
@@ -20,15 +20,18 @@ public class JsonAnimmAssetInspector : Editor
     #endregion
 
     #region Navigation & State
-    bool UnsavedChanges = false;
+    bool UnsavedChanges => asset != null && EditorUtility.IsDirty(asset);
     int selectedDirectionIndex = 0;
     int selectedFrameIndex = -1;
     string[] directionKeys;
+    List<string> mismatchedDirections = new List<string>();
     Vector2 framesScroll;
 
     bool isPlaying = false;
     double lastEditorTime;
     float previewTimer = 0f;
+
+    System.DateTime lastJsonWriteTime;
     #endregion
 
     #region Preferences
@@ -42,11 +45,6 @@ public class JsonAnimmAssetInspector : Editor
     void OnEnable()
     {
         asset = (JsonAnimAsset)target;
-        
-        // spriteSheet = asset.spriteSheet;
-        // atlasJsonFile = asset.atlasJson;
-        // animJsonFile = asset.animJson;
-
         spriteSheetProp = serializedObject.FindProperty("spriteSheet");
         atlasJsonProp = serializedObject.FindProperty("atlasJson");
         animJsonProp = serializedObject.FindProperty("animJson");
@@ -56,6 +54,7 @@ public class JsonAnimmAssetInspector : Editor
         loadJson();
         loadAtlas();
 
+        Undo.undoRedoPerformed += undoRedoPerfomed;
         EditorApplication.update += OnEditorUpdate;
         lastAsset = asset;
     }
@@ -63,6 +62,7 @@ public class JsonAnimmAssetInspector : Editor
     void OnDisable()
     {
         EditorApplication.update -= OnEditorUpdate;
+        Undo.undoRedoPerformed -= undoRedoPerfomed;
 
         if (UnsavedChanges)
         {
@@ -99,22 +99,31 @@ public class JsonAnimmAssetInspector : Editor
 
         EditorGUILayout.Space(10);
 
-        if(animData == null) 
+        if(asset.animData == null) 
         {
             EditorGUILayout.HelpBox("AnimJson not loaded", MessageType.Info);
             return;
         }
 
+        CheckExternalFileChanges();
+
         DrawMainEditor();
 
-        if (GUI.changed)
-        {
-            serializedObject.ApplyModifiedProperties();
-            EditorUtility.SetDirty(asset);
-        }
+        // if (GUI.changed)
+        // {
+        //     serializedObject.ApplyModifiedProperties();
+        //     EditorUtility.SetDirty(asset);
+        // }
     }
     void DrawMainEditor()
     {
+        if (mismatchedDirections.Count > 0)
+        {
+            EditorGUILayout.HelpBox("Direcciones con cantidad de frames distinta al resto:\n" + string.Join("\n", mismatchedDirections) +
+                "\n\nla logica puede ser inconsistente en estas direcciones.", MessageType.Warning);
+            EditorGUILayout.Space(6);
+        }
+
         Section("Direction Selection");
             DrawClipSelector();
             DrawClipInfo();
@@ -146,27 +155,44 @@ public class JsonAnimmAssetInspector : Editor
         {
             Debug.LogWarning("No Anim.Json selected");
 
-            animData = null;
+            asset.animData = null;
             directionKeys = null;
             return;
         }
 
         isPlaying = false;
 
-        animData = JsonUtility.FromJson<AnimJson.AnimJsonData>(asset.animJson.text);
+        bool needsLoad = asset.animData == null || asset.animData.directions == null || asset.animData.directions.Length == 0;
 
-        if(animData?.anims == null)
+      if (needsLoad)
+        {
+            asset.animData = AnimParser.IsNormalize(asset.animJson) ?
+                JsonUtility.FromJson<AnimParser.NormAnimFile>(asset.animJson.text) : 
+                AnimParser.NormalizeAndWriteBack(asset.animJson);
+        }
+
+        if(asset.animData?.directions == null)
         {
             Debug.LogError("Anim.json invalido o imcompatible");
-            animData = null;
+            asset.animData = null;
             directionKeys = null;
             return;
         }
 
         selectedDirectionIndex = 0;
         selectedFrameIndex = -1;
-        directionKeys = animData.anims.Select(a => a.key).ToArray();
-        UnsavedChanges = false;
+        directionKeys = asset.animData.directions.Select(d => d.direction).ToArray();
+
+        ValidateFrameCounts();
+
+        if(asset.animJson != null)
+        {
+            string path = AssetDatabase.GetAssetPath(asset.animJson);
+            if (!string.IsNullOrEmpty(path))
+            {
+                lastJsonWriteTime = System.IO.File.GetLastWriteTime(path);
+            }
+        }
     }
     void loadAtlas()
     {
@@ -175,11 +201,11 @@ public class JsonAnimmAssetInspector : Editor
         if (asset.atlasJson == null) return;
         
         isPlaying = false;
-        atlasData = JsonUtility.FromJson<AtlasJson.AtlasData>(asset.atlasJson.text);
+        atlasData = JsonUtility.FromJson<AtlasParser.AtlasFile>(asset.atlasJson.text);
 
         if(atlasData?.frames == null) return;
 
-        atlasLookup = new Dictionary<string, AtlasJson.AtlasFrame>();
+        atlasLookup = new Dictionary<string, AtlasParser.AtlasFrame>();
         foreach(var f in atlasData.frames)
         {
             if (!atlasLookup.ContainsKey(f.filename))
@@ -188,31 +214,29 @@ public class JsonAnimmAssetInspector : Editor
             }
         }
     }
-    void saveJson()
-    {
-        if (animData == null || asset.animJson == null)
-        {
-            Debug.Log("Nothing to save");
-            return;
-        } 
+    // void saveJson()
+    // {
+    //     if (asset.animData == null || asset.animJson == null)
+    //     {
+    //         Debug.Log("Nothing to save");
+    //         return;
+    //     }
 
-        ApplyDataToAllDirections();
-        DuplicateEventsToAllDirections();
+    //     string json = JsonUtility.ToJson(asset.animData, true);
+    //     string path = AssetDatabase.GetAssetPath(asset.animJson);
 
-        string json = JsonUtility.ToJson(animData, true);
-        string path = AssetDatabase.GetAssetPath(asset.animJson);
+    //     System.IO.File.WriteAllText(path, json);
+    //     AssetDatabase.Refresh();
 
-        System.IO.File.WriteAllText(path, json);
-        AssetDatabase.Refresh();
-
-        UnsavedChanges = false;
-        EditorUtility.SetDirty(asset.animJson);
-        AssetDatabase.SaveAssets();
-        Debug.Log("AnimJson Saved");
-    }
+    //     UnsavedChanges = false;
+    //     EditorUtility.SetDirty(asset.animJson);
+    //     AssetDatabase.SaveAssets();
+    //     Debug.Log("AnimJson Saved");
+    // }
     void SaveAndRebuild()
     {
-        saveJson();
+        // saveJson();
+        JsonAnimAssetBuilder.SaveAnimJson(asset);
         JsonAnimAssetBuilder.Build(asset);
         serializedObject.Update();
         loadAtlas();
@@ -226,15 +250,49 @@ public class JsonAnimmAssetInspector : Editor
         string path = AssetDatabase.GetAssetPath(asset.animJson);
         string json = System.IO.File.ReadAllText(path);
 
-        animData = JsonUtility.FromJson<AnimJson.AnimJsonData>(json);
+        asset.animData = JsonUtility.FromJson<AnimParser.NormAnimFile>(json);
 
         selectedDirectionIndex = 0;
         selectedFrameIndex = -1;
-        directionKeys = animData.anims.Select(a => a.key).ToArray();
+        directionKeys = asset.animData.directions.Select(d => d.direction).ToArray();
 
-        UnsavedChanges = false;
+        EditorUtility.ClearDirty(asset);
         isPlaying = false;
 
+        Repaint();
+    }
+
+    void CheckExternalFileChanges()
+    {
+        if (asset.animData == null || asset.animJson == null) return;
+
+        string path = AssetDatabase.GetAssetPath(asset.animJson);
+        if (string.IsNullOrEmpty(path)) return;
+
+        var writeTime = System.IO.File.GetLastWriteTime(path);
+        if (writeTime == lastJsonWriteTime) return;
+
+        lastJsonWriteTime = writeTime;
+        SyncFramesFromDisk(path);
+    }
+
+    void SyncFramesFromDisk(string path)
+    {
+        string json = System.IO.File.ReadAllText(path);
+        var diskData = JsonUtility.FromJson<AnimParser.NormAnimFile>(json);
+
+        if (diskData?.directions == null) return;
+
+        foreach(var diskDir in diskData.directions)
+        {
+            var memDir = asset.animData.directions.FirstOrDefault(d => d.direction == diskDir.direction);
+            if (memDir != null)
+            {
+                memDir.frames = diskDir.frames;
+            }
+        }
+
+        ValidateFrameCounts();
         Repaint();
     }
  #endregion
@@ -267,7 +325,7 @@ public class JsonAnimmAssetInspector : Editor
     void DrawSaveButtons()
     {
         EditorGUILayout.BeginHorizontal();
-            GUI.enabled = animData != null && UnsavedChanges;
+            GUI.enabled = asset.animData != null && UnsavedChanges;
 
             if(GUILayout.Button("Save Json + Rebuild Asset"))
             {
@@ -292,6 +350,12 @@ public class JsonAnimmAssetInspector : Editor
 #region Draw Anim Info
     void DrawClipSelector()
     {
+        if (directionKeys == null || directionKeys.Length == 0)
+        {
+            EditorGUILayout.HelpBox("No hay direcciones cargadas", MessageType.Warning);
+            return;
+        }
+
         int newIndex = EditorGUILayout.Popup("Direction", selectedDirectionIndex, directionKeys);
 
         if (directionKeys != null && !isValidDirection(directionKeys[newIndex]))
@@ -308,46 +372,22 @@ public class JsonAnimmAssetInspector : Editor
     void DrawClipInfo()
     {
         if (!hasValidClip()) return;
-        var clip = animData.anims[selectedDirectionIndex];
 
         EditorGUI.BeginChangeCheck();
-        clip.frameRate = EditorGUILayout.IntField("FPS", clip.frameRate);
-        bool repeatEnable = clip.repeat < 0;
+        asset.animData.frameRate = EditorGUILayout.IntField("FPS", asset.animData.frameRate);
+        bool repeatEnable = asset.animData.repeat < 0;
 
-        EditorGUI.BeginChangeCheck();
         repeatEnable = EditorGUILayout.Toggle("Is loop", repeatEnable);
 
         if(EditorGUI.EndChangeCheck())
         {
-            clip.repeat = repeatEnable? -1: 0;
-            UnsavedChanges = true;
+            Undo.RecordObject(asset, "Change Animation Settings");
+            asset.animData.repeat = repeatEnable? -1: 0;
+            // UnsavedChanges = true;
+            EditorUtility.SetDirty(asset);
         }
-
-        EditorGUILayout.Space(4);
-        EditorGUILayout.BeginHorizontal();
-            GUILayout.FlexibleSpace();
-
-            if(GUILayout.Button("Apply to all directions", GUILayout.Width(180)))
-            {
-                ApplyDataToAllDirections();
-                UnsavedChanges = true;
-            }
-
-        EditorGUILayout.EndHorizontal();
-
     }
-    void ApplyDataToAllDirections()
-    {
-        var sourceClip = animData.anims[selectedDirectionIndex];
-        for (int i = 0; i < animData.anims.Length; i++)
-        {
-            if(i == selectedDirectionIndex) continue;
-            animData.anims[i].frameRate = sourceClip.frameRate;
-            animData.anims[i].repeat = sourceClip.repeat;
-        }
 
-        Debug.Log("FrameRate y Repeat aplicado a todas las direcciones");
-    }
 #endregion
     
 #region DrawFramePrev
@@ -379,7 +419,7 @@ public class JsonAnimmAssetInspector : Editor
 
         DrawSpriteInRect(previewRect, atlasFrame);
     }
-    void DrawSpriteInRect(Rect previewRect, AtlasJson.AtlasFrame atlasFrame)
+    void DrawSpriteInRect(Rect previewRect, AtlasParser.AtlasFrame atlasFrame)
     {
         Rect texCoords = new Rect(atlasFrame.frame.x / (float)asset.spriteSheet.width,
             1f - (atlasFrame.frame.y + atlasFrame.frame.h) / (float)asset.spriteSheet.height, 
@@ -437,8 +477,7 @@ public class JsonAnimmAssetInspector : Editor
     {
         if (!hasValidClip()) return;
 
-        var clip = animData.anims[selectedDirectionIndex];
-
+        var frames = asset.animData.directions[selectedDirectionIndex].frames;
         float timelineHeight = 100f;
 
         framesScroll = EditorGUILayout.BeginScrollView(framesScroll, alwaysShowHorizontal: true, alwaysShowVertical: false, 
@@ -446,21 +485,20 @@ public class JsonAnimmAssetInspector : Editor
 
             EditorGUILayout.BeginHorizontal();
 
-                for(int i = 0; i < clip.frames.Count; i++)
+                for(int i = 0; i < frames.Length; i++)
                 {
-                    DrawFrameButton(i, clip.frames[i]);
+                    DrawFrameButton(i);
                 }
 
             EditorGUILayout.EndHorizontal();
         EditorGUILayout.EndScrollView();
     }
-    void DrawFrameButton(int index, AnimJson.AnimFrameData frame)
+    void DrawFrameButton(int index)
     {
         bool isSelected = index == selectedFrameIndex;
-        bool hasEvents = frame.evnt != null && frame.evnt.Length > 0;
+        bool hasEvents = GetFrameEvents(index).Length > 0;
 
         float size = 60f;
-
         GUIStyle style = new GUIStyle(GUI.skin.button)
         {
             fixedHeight = size,
@@ -478,10 +516,7 @@ public class JsonAnimmAssetInspector : Editor
         }
 
         drawEvenIndicator(hasEvents, rect);
-        if (isSelected)
-        {
-            drawSelectionBorder(rect);
-        }
+        if (isSelected) drawSelectionBorder(rect);
     }
     void drawEvenIndicator(bool hasEvents, Rect frameRect)
     {
@@ -514,22 +549,29 @@ void DrawFrameInspector()
             return;
         }
 
-        var clip = animData.anims[selectedDirectionIndex];
-        var frame = clip.frames[selectedFrameIndex];
         EditorGUILayout.LabelField($"Frame {selectedFrameIndex}", EditorStyles.boldLabel);
 
-        if(frame.evnt == null) frame.evnt = new string[0];
-        if (frame.evnt.Length == 0)
+        string[] events = GetFrameEvents(selectedFrameIndex);
+        if(events.Length == 0)
         {
             EditorGUILayout.HelpBox("Este frame no tiene eventos de animacion", MessageType.Info);
         }
         
         int removeIndex = -1;
-        for (int i = 0; i < frame.evnt.Length; i++)
+        for (int i = 0; i < events.Length; i++)
         {
             EditorGUILayout.BeginHorizontal();
 
-                frame.evnt[i] = EditorGUILayout.TextField($"Event {i}", frame.evnt[i]);
+                string newValue = EditorGUILayout.TextField($"Event {i}", events[i]);
+                if (newValue != events[i])
+                {
+                    Undo.RecordObject(asset, "New Animation Event");
+                    events[i] = newValue;
+                    SetFrameEvents(selectedFrameIndex, events);
+                    // UnsavedChanges = true;
+                    EditorUtility.SetDirty(asset);
+                }
+
                 if(GUILayout.Button("X", GUILayout.Width(28)))
                 {
                     removeIndex = i;
@@ -540,65 +582,42 @@ void DrawFrameInspector()
 
         if(removeIndex != -1)
         {
-            RemoveEventAt(ref frame.evnt, removeIndex);
-            UnsavedChanges = true;
+            Undo.RecordObject(asset, "Animation Event Deleted");
+            var list = events.ToList();
+            list.RemoveAt(removeIndex);
+            SetFrameEvents(selectedFrameIndex, list.ToArray());
+            // UnsavedChanges = true;
+            EditorUtility.SetDirty(asset);
             Repaint();
         }
 
         if (GUILayout.Button("+ Add Event"))
         {
-            AddEvent(ref frame.evnt);
-            UnsavedChanges = true;
+            Undo.RecordObject(asset, "Animation Event Added");
+            var list = events.ToList();
+            list.Add("");
+            SetFrameEvents(selectedFrameIndex, list.ToArray());
+            // UnsavedChanges = true;
+            EditorUtility.SetDirty(asset);
             Repaint();
         }
-
-        EditorGUILayout.Space(6);
-        if(GUILayout.Button("Duplicate events to all directions"))
-        {
-            DuplicateEventsToAllDirections();
-            UnsavedChanges = true;
-        }
-    }
-    void DuplicateEventsToAllDirections()
-    {
-        if (!hasValidClip() || selectedFrameIndex < 0) return;
-
-        isPlaying = false;
-        var sourceClip = animData.anims[selectedDirectionIndex];
-        var sourceFrame = sourceClip.frames[selectedFrameIndex];
-
-        string[] sourceEvents = sourceFrame.evnt ?? new string[0];
-
-        for (int i = 0; i < animData.anims.Length; i++)
-        {
-            if (i == selectedDirectionIndex) continue;
-
-            var targetClip = animData.anims[i];
-            if(selectedFrameIndex < targetClip.frames.Count)
-            {
-                targetClip.frames[selectedFrameIndex].evnt = (string[])sourceEvents.Clone();
-            }
-        }
-        Debug.Log("Events aplicados a todas las direcciones");
     }
 #endregion
 
 #region  Helpers & Tools
-    bool hasValidClip() => animData?.anims != null && selectedDirectionIndex >= 0 &&
-        selectedDirectionIndex < animData.anims.Length;
+    bool hasValidClip() => asset.animData?.directions != null && selectedDirectionIndex >= 0 &&
+        selectedDirectionIndex < asset.animData.directions.Length;
 
-     bool TryGetSelectedAtlasFrame (out AtlasJson.AtlasFrame atlasFrame)
+     bool TryGetSelectedAtlasFrame (out AtlasParser.AtlasFrame atlasFrame)
     {
         atlasFrame = null;
 
         if (!hasValidClip() || selectedFrameIndex < 0 || atlasLookup == null) return false;
-        // if (atlasData == null) return false;
- 
-        var clip = animData.anims[selectedDirectionIndex];
-        // if (selectedDirectionIndex >= clip.frames.Count) return false;
-        if(selectedFrameIndex >= clip.frames.Count) return false;
 
-        return atlasLookup.TryGetValue(clip.frames[selectedFrameIndex].frame, out atlasFrame);
+        var frames = asset.animData.directions[selectedDirectionIndex].frames;
+        if (selectedFrameIndex >= frames.Length) return false;
+
+        return atlasLookup.TryGetValue(frames[selectedFrameIndex], out atlasFrame);
     }
     bool isValidDirection(string dir)
     {
@@ -613,14 +632,14 @@ void DrawFrameInspector()
         float delta = (float)(time - lastEditorTime);
         lastEditorTime = time;
 
-        var clip = animData.anims[selectedDirectionIndex];
-        if (clip.frames == null || clip.frames.Count == 0) return;
+        var frames = asset.animData.directions[selectedDirectionIndex].frames;
+        if (frames == null || frames.Length == 0) return;
 
         previewTimer += delta;
-        float frameDuration = 1f / Mathf.Max(1, clip.frameRate);
+        float frameDuration = 1f / Mathf.Max(1, asset.animData.frameRate);
 
         int newFrame = Mathf.FloorToInt (previewTimer / frameDuration);
-        if (newFrame >= clip.frames.Count)
+        if (newFrame >= frames.Length)
         {
             previewTimer = 0f;
             newFrame = 0;
@@ -634,14 +653,10 @@ void DrawFrameInspector()
     void StepFrame(int dir)
     {
         if (!hasValidClip()) return;
-        var clip = animData.anims[selectedDirectionIndex];
+        var frames = asset.animData.directions[selectedDirectionIndex].frames;
 
-        selectedFrameIndex = (int)Mathf.Repeat(selectedFrameIndex + dir, clip.frames.Count);
-
-        // if (selectedFrameIndex < 0) selectedFrameIndex = clip.frames.Count - 1;
-        // else if (selectedFrameIndex >= clip.frames.Count) selectedFrameIndex = 0;
-
-        previewTimer = selectedFrameIndex / (float)clip.frameRate;
+        selectedFrameIndex = (int)Mathf.Repeat(selectedFrameIndex + dir, frames.Length);
+        previewTimer = selectedFrameIndex / (float)asset.animData.frameRate;
         Repaint();
     }
     void HandleKeyBoard()
@@ -654,17 +669,6 @@ void DrawFrameInspector()
             lastEditorTime = EditorApplication.timeSinceStartup;
             e.Use();
         }
-    }
-    void AddEvent(ref string[] eventArray)
-    {
-        System.Array.Resize(ref eventArray, eventArray.Length + 1);
-        eventArray[eventArray.Length - 1] = "";
-    }
-    void RemoveEventAt(ref string[] eventArray, int index)
-    {
-        var list = eventArray.ToList();
-        list.RemoveAt(index);
-        eventArray = list.ToArray();
     }
     void LoadEventColor()
     {
@@ -688,6 +692,76 @@ void DrawFrameInspector()
     {
         EditorGUILayout.EndVertical();
     }
+
+    string[] GetFrameEvents (int frameIndex)
+    {
+        if (asset.animData?.events == null) return new string[0];
+        foreach (var e in asset.animData.events)
+        {
+            if (e.frameIndex == frameIndex) return e.keys?? new string[0];
+        }
+        return new string [0];
+    }
+
+    void SetFrameEvents (int frameIndex, string[] keys)
+    {
+        var list = asset.animData.events.ToList();
+        int idx = list.FindIndex(e => e.frameIndex == frameIndex);
+
+        if (keys.Length == 0)
+        {
+            if (idx != -1) list.RemoveAt(idx);
+        }
+        else if (idx != -1)
+        {
+            list[idx].keys = keys;
+        }
+        else
+        {
+            list.Add(new AnimParser.NormEvent { frameIndex = frameIndex, keys = keys});
+        }
+
+        asset.animData.events = list.ToArray();
+    }
+
+    void ValidateFrameCounts()
+    {
+        mismatchedDirections.Clear();
+        if (asset.animData?.directions == null || asset.animData?.directions.Length == 0) return;
+
+        int expectedCount = asset.animData.directions.GroupBy(d => d.frames.Length).
+            OrderByDescending(g => g.Count()).
+            First().Key;
+
+        asset.animData.framecount = expectedCount;
+
+        foreach (var dir in asset.animData.directions)
+        {
+            if (dir.frames.Length != expectedCount)
+            {
+                mismatchedDirections.Add($"{dir.direction} ({dir.frames.Length} frames, se esperaban {expectedCount}.)");
+            }
+        }
+    }
+
+    #endregion
+
+
+    #region save tools
+
+    void undoRedoPerfomed()
+    {
+        if (asset?.animData?.directions == null) 
+        {
+            directionKeys = null;
+            Repaint();
+            return;
+        }
+        directionKeys = asset.animData.directions.Select(d => d.direction).ToArray();
+        if (selectedDirectionIndex >= directionKeys.Length) selectedDirectionIndex = 0;
+        Repaint();
+    }
+
     #endregion
 }
 

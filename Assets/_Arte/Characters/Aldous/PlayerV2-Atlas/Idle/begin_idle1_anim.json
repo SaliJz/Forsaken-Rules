@@ -1,291 +1,92 @@
 {
-    "anims": [
+    "schema": "norm_v1",
+    "frameRate": 14,
+    "repeat": -1,
+    "framecount": 16,
+    "events": [],
+    "directions": [
         {
-            "key": "left",
-            "type": "frames",
-            "repeat": -1,
-            "frameRate": 14,
+            "direction": "left",
             "frames": [
-                {
-                    "key": "begin_idle1",
-                    "frame": "bidle_l_1_tmp"
-                },
-                {
-                    "key": "begin_idle1",
-                    "frame": "bidle_l_2_tmp"
-                },
-                {
-                    "key": "begin_idle1",
-                    "frame": "bidle_l_3_tmp"
-                },
-                {
-                    "key": "begin_idle1",
-                    "frame": "bidle_l_4_tmp"
-                },
-                {
-                    "key": "begin_idle1",
-                    "frame": "bidle_l_5_tmp"
-                },
-                {
-                    "key": "begin_idle1",
-                    "frame": "bidle_l_6_tmp"
-                },
-                {
-                    "key": "begin_idle1",
-                    "frame": "bidle_l_7_tmp"
-                },
-                {
-                    "key": "begin_idle1",
-                    "frame": "bidle_l_8_tmp"
-                },
-                {
-                    "key": "begin_idle1",
-                    "frame": "bidle_l_9_tmp"
-                },
-                {
-                    "key": "begin_idle1",
-                    "frame": "bidle_l_10_tmp"
-                },
-                {
-                    "key": "begin_idle1",
-                    "frame": "bidle_l_11_tmp"
-                },
-                {
-                    "key": "begin_idle1",
-                    "frame": "bidle_l_12_tmp"
-                },
-                {
-                    "key": "begin_idle1",
-                    "frame": "bidle_l_13_tmp"
-                },
-                {
-                    "key": "begin_idle1",
-                    "frame": "bidle_l_14_tmp"
-                },
-                {
-                    "key": "begin_idle1",
-                    "frame": "bidle_l_15_tmp"
-                },
-                {
-                    "key": "begin_idle1",
-                    "frame": "bidle_l_16_tmp"
-                }
+                "bidle_l_1_tmp",
+                "bidle_l_2_tmp",
+                "bidle_l_3_tmp",
+                "bidle_l_4_tmp",
+                "bidle_l_5_tmp",
+                "bidle_l_6_tmp",
+                "bidle_l_7_tmp",
+                "bidle_l_8_tmp",
+                "bidle_l_9_tmp",
+                "bidle_l_10_tmp",
+                "bidle_l_11_tmp",
+                "bidle_l_12_tmp",
+                "bidle_l_13_tmp",
+                "bidle_l_14_tmp",
+                "bidle_l_15_tmp",
+                "bidle_l_16_tmp"
             ]
         },
         {
-            "key": "downright",
-            "type": "frames",
-            "repeat": -1,
-            "frameRate": 14,
+            "direction": "downright",
             "frames": [
-                {
-                    "key": "begin_idle1",
-                    "frame": "bidle_dr_1_tmp"
-                },
-                {
-                    "key": "begin_idle1",
-                    "frame": "bidle_dr_2_tmp"
-                },
-                {
-                    "key": "begin_idle1",
-                    "frame": "bidle_dr_3_tmp"
-                },
-                {
-                    "key": "begin_idle1",
-                    "frame": "bidle_dr_4_tmp"
-                },
-                {
-                    "key": "begin_idle1",
-                    "frame": "bidle_dr_5_tmp"
-                },
-                {
-                    "key": "begin_idle1",
-                    "frame": "bidle_dr_6_tmp"
-                },
-                {
-                    "key": "begin_idle1",
-                    "frame": "bidle_dr_7_tmp"
-                },
-                {
-                    "key": "begin_idle1",
-                    "frame": "bidle_dr_8_tmp"
-                },
-                {
-                    "key": "begin_idle1",
-                    "frame": "bidle_dr_9_tmp"
-                },
-                {
-                    "key": "begin_idle1",
-                    "frame": "bidle_dr_10_tmp"
-                },
-                {
-                    "key": "begin_idle1",
-                    "frame": "bidle_dr_11_tmp"
-                },
-                {
-                    "key": "begin_idle1",
-                    "frame": "bidle_dr_12_tmp"
-                },
-                {
-                    "key": "begin_idle1",
-                    "frame": "bidle_dr_13_tmp"
-                },
-                {
-                    "key": "begin_idle1",
-                    "frame": "bidle_dr_14_tmp"
-                },
-                {
-                    "key": "begin_idle1",
-                    "frame": "bidle_dr_15_tmp"
-                },
-                {
-                    "key": "begin_idle1",
-                    "frame": "bidle_dr_16_tmp"
-                }
+                "bidle_dr_1_tmp",
+                "bidle_dr_2_tmp",
+                "bidle_dr_3_tmp",
+                "bidle_dr_4_tmp",
+                "bidle_dr_5_tmp",
+                "bidle_dr_6_tmp",
+                "bidle_dr_7_tmp",
+                "bidle_dr_8_tmp",
+                "bidle_dr_9_tmp",
+                "bidle_dr_10_tmp",
+                "bidle_dr_11_tmp",
+                "bidle_dr_12_tmp",
+                "bidle_dr_13_tmp",
+                "bidle_dr_14_tmp",
+                "bidle_dr_15_tmp",
+                "bidle_dr_16_tmp"
             ]
         },
         {
-            "key": "downleft",
-            "type": "frames",
-            "repeat": -1,
-            "frameRate": 14,
+            "direction": "downleft",
             "frames": [
-                {
-                    "key": "begin_idle1",
-                    "frame": "bidle_dl_1_tmp"
-                },
-                {
-                    "key": "begin_idle1",
-                    "frame": "bidle_dl_2_tmp"
-                },
-                {
-                    "key": "begin_idle1",
-                    "frame": "bidle_dl_3_tmp"
-                },
-                {
-                    "key": "begin_idle1",
-                    "frame": "bidle_dl_4_tmp"
-                },
-                {
-                    "key": "begin_idle1",
-                    "frame": "bidle_dl_5_tmp"
-                },
-                {
-                    "key": "begin_idle1",
-                    "frame": "bidle_dl_6_tmp"
-                },
-                {
-                    "key": "begin_idle1",
-                    "frame": "bidle_dl_7_tmp"
-                },
-                {
-                    "key": "begin_idle1",
-                    "frame": "bidle_dl_8_tmp"
-                },
-                {
-                    "key": "begin_idle1",
-                    "frame": "bidle_dl_9_tmp"
-                },
-                {
-                    "key": "begin_idle1",
-                    "frame": "bidle_dl_10_tmp"
-                },
-                {
-                    "key": "begin_idle1",
-                    "frame": "bidle_dl_11_tmp"
-                },
-                {
-                    "key": "begin_idle1",
-                    "frame": "bidle_dl_12_tmp"
-                },
-                {
-                    "key": "begin_idle1",
-                    "frame": "bidle_dl_13_tmp"
-                },
-                {
-                    "key": "begin_idle1",
-                    "frame": "bidle_dl_14_tmp"
-                },
-                {
-                    "key": "begin_idle1",
-                    "frame": "bidle_dl_15_tmp"
-                },
-                {
-                    "key": "begin_idle1",
-                    "frame": "bidle_dl_16_tmp"
-                }
+                "bidle_dl_1_tmp",
+                "bidle_dl_2_tmp",
+                "bidle_dl_3_tmp",
+                "bidle_dl_4_tmp",
+                "bidle_dl_5_tmp",
+                "bidle_dl_6_tmp",
+                "bidle_dl_7_tmp",
+                "bidle_dl_8_tmp",
+                "bidle_dl_9_tmp",
+                "bidle_dl_10_tmp",
+                "bidle_dl_11_tmp",
+                "bidle_dl_12_tmp",
+                "bidle_dl_13_tmp",
+                "bidle_dl_14_tmp",
+                "bidle_dl_15_tmp",
+                "bidle_dl_16_tmp"
             ]
         },
         {
-            "key": "down",
-            "type": "frames",
-            "repeat": -1,
-            "frameRate": 14,
+            "direction": "down",
             "frames": [
-                {
-                    "key": "begin_idle1",
-                    "frame": "bidle_d_1_tmp"
-                },
-                {
-                    "key": "begin_idle1",
-                    "frame": "bidle_d_2_tmp"
-                },
-                {
-                    "key": "begin_idle1",
-                    "frame": "bidle_d_3_tmp"
-                },
-                {
-                    "key": "begin_idle1",
-                    "frame": "bidle_d_4_tmp"
-                },
-                {
-                    "key": "begin_idle1",
-                    "frame": "bidle_d_5_tmp"
-                },
-                {
-                    "key": "begin_idle1",
-                    "frame": "bidle_d_6_tmp"
-                },
-                {
-                    "key": "begin_idle1",
-                    "frame": "bidle_d_7_tmp"
-                },
-                {
-                    "key": "begin_idle1",
-                    "frame": "bidle_d_8_tmp"
-                },
-                {
-                    "key": "begin_idle1",
-                    "frame": "bidle_d_9_tmp"
-                },
-                {
-                    "key": "begin_idle1",
-                    "frame": "bidle_d_10_tmp"
-                },
-                {
-                    "key": "begin_idle1",
-                    "frame": "bidle_d_11_tmp"
-                },
-                {
-                    "key": "begin_idle1",
-                    "frame": "bidle_d_12_tmp"
-                },
-                {
-                    "key": "begin_idle1",
-                    "frame": "bidle_d_13_tmp"
-                },
-                {
-                    "key": "begin_idle1",
-                    "frame": "bidle_d_14_tmp"
-                },
-                {
-                    "key": "begin_idle1",
-                    "frame": "bidle_d_15_tmp"
-                },
-                {
-                    "key": "begin_idle1",
-                    "frame": "bidle_d_16_tmp"
-                }
+                "bidle_d_1_tmp",
+                "bidle_d_2_tmp",
+                "bidle_d_3_tmp",
+                "bidle_d_4_tmp",
+                "bidle_d_5_tmp",
+                "bidle_d_6_tmp",
+                "bidle_d_7_tmp",
+                "bidle_d_8_tmp",
+                "bidle_d_9_tmp",
+                "bidle_d_10_tmp",
+                "bidle_d_11_tmp",
+                "bidle_d_12_tmp",
+                "bidle_d_13_tmp",
+                "bidle_d_14_tmp",
+                "bidle_d_15_tmp",
+                "bidle_d_16_tmp"
             ]
         }
     ]

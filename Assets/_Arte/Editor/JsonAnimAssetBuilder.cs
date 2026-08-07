@@ -68,4 +68,21 @@ public static class JsonAnimAssetBuilder
         AssetDatabase.SaveAssets();
 
     }
+
+    public static void SaveAnimJson(JsonAnimAsset asset)
+    {
+        if (asset.animData == null || asset.animJson == null) return;
+
+        if (asset.animData.directions == null || asset.animData.directions.Length == 0)
+        {
+            Debug.LogError($"[JsonAnimAssetBuilder] Se abortó el guardado de {asset.id}: AnimData vacio o corrupto. No se sobreescribió el archivo");
+        }
+
+        string json = JsonUtility.ToJson(asset.animData, true);
+        string path = AssetDatabase.GetAssetPath(asset.animJson);
+        System.IO.File.WriteAllText(path, json);
+        AssetDatabase.Refresh();
+
+        EditorUtility.ClearDirty(asset);
+    }
 }

@@ -2421,6 +2421,7 @@ MonoBehaviour:
   currentDirection: 
   currentPriority: 0
   shaderCtrl: {fileID: 0}
+  vfxCtrl: {fileID: 0}
   currentAge: 1
   nextAge: 0
   HasShield: 1
@@ -2581,7 +2582,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 664404008}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 631f69a0b012e70499d0a7a477953f60, type: 3}
   m_Name: 
@@ -2604,6 +2605,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6add13dfffbf85547afe9db480f59697, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  afterImagesSpawner: {fileID: 0}
+  inventoryManager: {fileID: 0}
+  slashesVFX: []
+  slashMaterialSets: []
+  defaultSetID: Normal
+  upgradedSetID: Upgraded
+  dash_normal_AfterImage: {fileID: 0}
+  dash_upgraded_AfterImage: {fileID: 0}
+  dash_SpawnInterval: 0
+  dash_upgraded_spawnInverval: 0
+  dash_lifetime: 0
+  meleeDisplacement_AfterImage: {fileID: 0}
+  meleeDisplacement_SpawnInterval: 0
+  meleeDisplacement_lifetime: 0
+  ShieldTrailMaterials: []
+  ShieldUpgradeAfterImage: {fileID: 0}
+  shield_spawninterval: 0
+  shield_lifetime: 0
+  ShieldBounceAfterImage: {fileID: 0}
+  bounceshield_lifeitime: 0
 --- !u!1 &728235579
 GameObject:
   m_ObjectHideFlags: 0
@@ -2993,6 +3014,7 @@ MonoBehaviour:
   currentDirection: down
   currentPriority: 0
   shaderCtrl: {fileID: 0}
+  vfxCtrl: {fileID: 0}
   currentAge: 1
   nextAge: 0
   HasShield: 1
@@ -5354,6 +5376,10 @@ PrefabInstance:
     - target: {fileID: 8226739044178877756, guid: 8315040a6bb235341bfd7dcd775fa2de, type: 3}
       propertyPath: m_Name
       value: VFX_ExplosionArea
+      objectReference: {fileID: 0}
+    - target: {fileID: 8226739044178877756, guid: 8315040a6bb235341bfd7dcd775fa2de, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9019920238140971434, guid: 8315040a6bb235341bfd7dcd775fa2de, type: 3}
       propertyPath: m_LocalPosition.x

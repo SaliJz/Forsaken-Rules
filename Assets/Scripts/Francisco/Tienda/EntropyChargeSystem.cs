@@ -74,7 +74,7 @@ public class EntropyChargeSystem : MonoBehaviour
         if (tickTimer <= 0f)
         {
             tickTimer = entropyConfig.tickInterval;
-            enemyHealth.TakeDamage(pendingDamagePerTick);
+            enemyHealth.TakeDamageOverTime(pendingDamagePerTick);
         }
 
         timeRemaining -= Time.deltaTime;

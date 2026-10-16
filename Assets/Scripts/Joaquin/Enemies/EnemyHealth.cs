@@ -342,6 +342,16 @@ public class EnemyHealth : MonoBehaviour, IDamageable
 
     public void TakeDamage(float damageAmount, bool isCritical = false, AttackDamageType damageType = AttackDamageType.Melee)
     {
+        ApplyDamage(damageAmount, isCritical, damageType, triggerDamageReaction: true);
+    }
+
+    public void TakeDamageOverTime(float damageAmount, AttackDamageType damageType = AttackDamageType.Nothing)
+    {
+        ApplyDamage(damageAmount, isCritical: false, damageType, triggerDamageReaction: false);
+    }
+
+    private void ApplyDamage(float damageAmount, bool isCritical, AttackDamageType damageType, bool triggerDamageReaction)
+    {
         if (currentHealth <= 0) return;
 
         float finalDamage = damageAmount;
@@ -392,7 +402,7 @@ public class EnemyHealth : MonoBehaviour, IDamageable
         CurrentHealth = currentHealth;
 
         OnHealthChanged?.Invoke(currentHealth, maxHealth);
-        OnDamaged?.Invoke();
+        if (triggerDamageReaction) OnDamaged?.Invoke();
         SpawnHealthDamageVFX();
         UpdateHealthUI();
 

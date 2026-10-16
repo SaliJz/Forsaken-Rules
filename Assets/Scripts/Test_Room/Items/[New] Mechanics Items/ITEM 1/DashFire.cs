@@ -170,7 +170,7 @@ public class DashFire : MonoBehaviour
         EnemyHealth health = enemy.GetComponentInParent<EnemyHealth>();
         if (health != null)
         {
-            health.TakeDamage(dps * tickInterval);
+            health.TakeDamageOverTime(dps * tickInterval);
         }
     }
 

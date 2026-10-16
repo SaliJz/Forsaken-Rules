@@ -290,6 +290,12 @@ public class InventoryUIManager : MonoBehaviour
     /// </summary>
     private bool ShouldToggleInventory()
     {
+        if (isOpen && IsSteamGamepadInputAvailable() && SteamInputManager.Instance.GetMenuInventoryPressed())
+        {
+            lastInputWasGamepad = true;
+            return true;
+        }
+
         if (Keyboard.current != null && Keyboard.current.tabKey.wasPressedThisFrame)
         {
             lastInputWasGamepad = false;
@@ -456,7 +462,7 @@ public class InventoryUIManager : MonoBehaviour
         BuildNavGrid();
 
         // Solo aplica auto-foco si se abrio especificamente utilizando un mando.
-        if (Gamepad.current != null && lastInputWasGamepad)
+        if (lastInputWasGamepad && (Gamepad.current != null || IsSteamGamepadInputAvailable()))
         {
             joystickCooldownTimer = 0f;
             focusedSlot = null;
@@ -464,6 +470,9 @@ public class InventoryUIManager : MonoBehaviour
             navRow = 0;
             StartCoroutine(FocusFirstSlotNextFrame());
         }
+
+        if (IsSteamGamepadInputAvailable())
+            SteamInputManager.Instance.ActivateMenuSet();
     }
 
     public void CloseInventory()
@@ -486,6 +495,12 @@ public class InventoryUIManager : MonoBehaviour
 
         isOpen = false;
         Time.timeScale = inventoryPreviousTimeScale;
+
+        if (EventSystem.current != null)
+            EventSystem.current.SetSelectedGameObject(null);
+
+        if (IsSteamGamepadInputAvailable())
+            SteamInputManager.Instance.ActivateInGameSet();
 
         if (focusedSlot != null)
         {
@@ -807,6 +822,8 @@ public class InventoryUIManager : MonoBehaviour
         }
 
         replaceConfirmPanel.SetActive(true);
+        if (IsSteamGamepadInputAvailable())
+            SteamInputManager.Instance.ActivateMenuSet();
         confirmPreviousTimeScale = Time.timeScale;
         Time.timeScale = 0f;
 
@@ -814,6 +831,7 @@ public class InventoryUIManager : MonoBehaviour
         confirmNavIndex = 0;
         confirmPanelJustOpened = true;
         ResetConfirmButtonHighlights();
+        ApplyConfirmButtonHighlight(confirmNavIndex);
 
         // Texto generico de respaldo (por si el prefab del panel no tiene los campos individuales asignados).
         if (replaceConfirmText != null)
@@ -879,6 +897,8 @@ public class InventoryUIManager : MonoBehaviour
         if (!wasInventoryOpenBeforeConfirm)
         {
             isOpen = false;
+            if (IsSteamGamepadInputAvailable())
+                SteamInputManager.Instance.ActivateInGameSet();
         }
 
         Time.timeScale = confirmPreviousTimeScale;
@@ -900,6 +920,8 @@ public class InventoryUIManager : MonoBehaviour
         if (!wasInventoryOpenBeforeConfirm)
         {
             isOpen = false;
+            if (IsSteamGamepadInputAvailable())
+                SteamInputManager.Instance.ActivateInGameSet();
         }
 
         Time.timeScale = confirmPreviousTimeScale;
@@ -1131,20 +1153,30 @@ public class InventoryUIManager : MonoBehaviour
     /// </summary>
     private void UpdateGamepadNavigation()
     {
-        if (Gamepad.current == null || navGrid == null) return;
+        bool steamInput = IsSteamGamepadInputAvailable();
+        if ((Gamepad.current == null && !steamInput) || navGrid == null) return;
 
         joystickCooldownTimer -= Time.unscaledDeltaTime;
 
         int dCol = 0, dRow = 0;
 
-        if (Gamepad.current.dpad.up.wasPressedThisFrame) dRow = -1;
+        if (steamInput)
+        {
+            if (SteamInputManager.Instance.GetMenuUpPressed()) dRow = -1;
+            else if (SteamInputManager.Instance.GetMenuDownPressed()) dRow = +1;
+            else if (SteamInputManager.Instance.GetMenuLeftPressed()) dCol = -1;
+            else if (SteamInputManager.Instance.GetMenuRightPressed()) dCol = +1;
+        }
+        else if (Gamepad.current.dpad.up.wasPressedThisFrame) dRow = -1;
         else if (Gamepad.current.dpad.down.wasPressedThisFrame) dRow = +1;
         else if (Gamepad.current.dpad.left.wasPressedThisFrame) dCol = -1;
         else if (Gamepad.current.dpad.right.wasPressedThisFrame) dCol = +1;
 
         if (dCol == 0 && dRow == 0 && joystickCooldownTimer <= 0f)
         {
-            Vector2 stick = Gamepad.current.leftStick.ReadValue();
+            Vector2 stick = steamInput
+                ? SteamInputManager.Instance.GetMenuMoveAxis()
+                : Gamepad.current.leftStick.ReadValue();
             if (stick.y > 0.5f) { dRow = -1; joystickCooldownTimer = joystickRepeatCooldown; }
             else if (stick.y < -0.5f) { dRow = +1; joystickCooldownTimer = joystickRepeatCooldown; }
             else if (stick.x < -0.5f) { dCol = -1; joystickCooldownTimer = joystickRepeatCooldown; }
@@ -1156,7 +1188,10 @@ public class InventoryUIManager : MonoBehaviour
             NavigateGamepadTo(navCol + dCol, navRow + dRow);
         }
 
-        if (Gamepad.current.buttonNorth.wasPressedThisFrame && focusedSlot != null)
+        bool selectPressed = steamInput
+            ? SteamInputManager.Instance.GetMenuSelectPressed() || SteamInputManager.Instance.GetMenuSubmitPressed()
+            : Gamepad.current.buttonNorth.wasPressedThisFrame;
+        if (selectPressed && focusedSlot != null)
         {
             focusedSlot.SimulateClick();
         }
@@ -1244,7 +1279,8 @@ public class InventoryUIManager : MonoBehaviour
     /// </summary>
     private void UpdateGamepadConfirmNavigation()
     {
-        if (Gamepad.current == null) return;
+        bool steamInput = IsSteamGamepadInputAvailable();
+        if (Gamepad.current == null && !steamInput) return;
 
         if (confirmPanelJustOpened)
         {
@@ -1256,13 +1292,17 @@ public class InventoryUIManager : MonoBehaviour
 
         int delta = 0;
 
-        if (Gamepad.current.dpad.left.wasPressedThisFrame || Gamepad.current.dpad.right.wasPressedThisFrame)
+        if (steamInput
+            ? SteamInputManager.Instance.GetMenuLeftPressed() || SteamInputManager.Instance.GetMenuRightPressed()
+            : Gamepad.current.dpad.left.wasPressedThisFrame || Gamepad.current.dpad.right.wasPressedThisFrame)
         {
             delta = 1;
         }
         else if (joystickCooldownTimer <= 0f)
         {
-            float x = Gamepad.current.leftStick.ReadValue().x;
+            float x = steamInput
+                ? SteamInputManager.Instance.GetMenuMoveAxis().x
+                : Gamepad.current.leftStick.ReadValue().x;
             if (Mathf.Abs(x) > 0.5f)
             {
                 delta = 1;
@@ -1276,13 +1316,17 @@ public class InventoryUIManager : MonoBehaviour
             ApplyConfirmButtonHighlight(confirmNavIndex);
         }
 
-        bool pressed = Gamepad.current.buttonSouth.wasPressedThisFrame
-                    || Gamepad.current.buttonNorth.wasPressedThisFrame;
+        bool pressed = steamInput
+            ? SteamInputManager.Instance.GetMenuSelectPressed() || SteamInputManager.Instance.GetMenuSubmitPressed()
+            : Gamepad.current.buttonSouth.wasPressedThisFrame || Gamepad.current.buttonNorth.wasPressedThisFrame;
         if (pressed)
         {
             if (confirmNavIndex == 0) OnConfirmReplace();
             else OnCancelReplace();
         }
+
+        if (steamInput && SteamInputManager.Instance.GetMenuCancelPressed())
+            OnCancelReplace();
     }
 
     private void ApplyConfirmButtonHighlight(int focusIndex)
@@ -1312,6 +1356,11 @@ public class InventoryUIManager : MonoBehaviour
         {
             EventSystem.current.SetSelectedGameObject(null);
         }
+    }
+
+    private bool IsSteamGamepadInputAvailable()
+    {
+        return SteamManager.Initialized && SteamInputManager.Instance != null && SteamInputManager.Instance.HasConnectedController;
     }
 
     #endregion

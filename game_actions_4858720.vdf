@@ -49,6 +49,14 @@
 		{
 			"title"		"#Set_Menu"
 			"legacy_set"		"0"
+			"StickPadGyro"
+			{
+				"menu_move"
+				{
+					"title"		"#Menu_Move"
+					"input_mode"		"joystick_move"
+				}
+			}
 			"Button"
 			{
 				"menu_up"		"#Menu_Up"
@@ -58,6 +66,7 @@
 				"menu_select"		"#Menu_Select"
 				"menu_cancel"		"#Menu_Cancel"
 				"menu_submit"		"#Menu_Submit"
+				"menu_inventory"	"Inventory Toggle"
 				"pause_menu"		"#Action_ReturnToGame"
 			}
 		}
@@ -71,6 +80,7 @@
 		{
 			"Set_Ingame"		"In-Game Controls"
 			"Set_Menu"		"Menu Controls"
+			"Menu_Move"		"Menu Navigation"
 			"Action_Move"		"Movement"
 			"Action_Aim"		"Aim"
 			"Action_Melee"		"Melee Attack"
@@ -320,6 +330,24 @@
 		"gameactions"
 		{
 			"InGameControls"		"Move"
+		}
+	}
+	"group"
+	{
+		"id"		"42"
+		"mode"		"joystick_move"
+		"name"		""
+		"description"		""
+		"inputs"
+		{
+		}
+		"settings"
+		{
+			"virtual_mode"		"1"
+		}
+		"gameactions"
+		{
+			"MenuControls"		"menu_move"
 		}
 	}
 	"group"
@@ -680,6 +708,7 @@
 						"bindings"
 						{
 							"binding"		"game_action InGameControls inventory, Inventory, , "
+							"binding"		"game_action MenuControls menu_inventory, Inventory Toggle, , "
 						}
 					}
 				}
@@ -769,13 +798,15 @@
 		"group_source_bindings"
 		{
 			"4"		"switch active"
+			"0"		"switch active"
 			"5"		"button_diamond active"
 			"6"		"left_trigger active"
 			"7"		"right_trigger active"
 			"23"		"joystick inactive"
 			"29"		"joystick inactive"
-			"35"		"joystick active"
+			"35"		"joystick inactive"
 			"41"		"dpad active"
+			"42"		"joystick active"
 		}
 	}
 	"settings"

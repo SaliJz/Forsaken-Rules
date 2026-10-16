@@ -18,6 +18,7 @@ public class SteamInputManager : MonoBehaviour
     private bool steamInputReady;
     private bool menuActionSetActive;
     private readonly List<Gamepad> nativeGamepadsDisabledBySteam = new List<Gamepad>();
+    public bool HasConnectedController => steamInputReady && activeControllerCount > 0;
 
     private InputActionSetHandle_t inGameSetHandle;
     private InputActionSetHandle_t menuSetHandle;
@@ -39,6 +40,8 @@ public class SteamInputManager : MonoBehaviour
     private InputDigitalActionHandle_t menuSelectHandle;
     private InputDigitalActionHandle_t menuCancelHandle;
     private InputDigitalActionHandle_t menuSubmitHandle;
+    private InputDigitalActionHandle_t menuInventoryHandle;
+    private InputAnalogActionHandle_t menuMoveHandle;
     private InputAnalogActionHandle_t aimHandle;
 
     private Dictionary<ulong, bool> previousFrameStates = new Dictionary<ulong, bool>();
@@ -187,14 +190,18 @@ public class SteamInputManager : MonoBehaviour
         CacheDigitalState(menuSelectHandle, controller);
         CacheDigitalState(menuCancelHandle, controller);
         CacheDigitalState(menuSubmitHandle, controller);
+        CacheDigitalState(menuInventoryHandle, controller);
     }
 
     private void HandleMenuNavigation()
     {
         if (!IsMenuScene() && !PauseController.IsGamePaused && !menuActionSetActive) return;
+        if (InventoryUIManager.Instance != null &&
+            (InventoryUIManager.Instance.IsOpen || InventoryUIManager.Instance.IsConfirmPanelOpen)) return;
         if (EventSystem.current == null) return;
 
-        bool inputDetectado = GetMenuUpHeld() || GetMenuDownHeld() || GetMenuLeftHeld() || GetMenuRightHeld() ||
+        Vector2 menuMove = GetMenuMoveAxis();
+        bool inputDetectado = GetMenuUpHeld() || GetMenuDownHeld() || GetMenuLeftHeld() || GetMenuRightHeld() || menuMove.magnitude > 0.45f ||
                               GetMenuSelectPressed() || GetMenuCancelPressed() || GetMenuSubmitPressed();
 
         if (inputDetectado)
@@ -217,6 +224,10 @@ public class SteamInputManager : MonoBehaviour
         else if (GetMenuDownHeld()) input = Vector2.down;
         else if (GetMenuLeftHeld()) input = Vector2.left;
         else if (GetMenuRightHeld()) input = Vector2.right;
+        else if (menuMove.magnitude > 0.45f)
+            input = Mathf.Abs(menuMove.x) > Mathf.Abs(menuMove.y)
+                ? (menuMove.x > 0 ? Vector2.right : Vector2.left)
+                : (menuMove.y > 0 ? Vector2.up : Vector2.down);
 
         if (input != Vector2.zero)
         {
@@ -351,6 +362,8 @@ public class SteamInputManager : MonoBehaviour
         menuSelectHandle = SteamInput.GetDigitalActionHandle("menu_select");
         menuCancelHandle = SteamInput.GetDigitalActionHandle("menu_cancel");
         menuSubmitHandle = SteamInput.GetDigitalActionHandle("menu_submit");
+        menuInventoryHandle = SteamInput.GetDigitalActionHandle("menu_inventory");
+        menuMoveHandle = SteamInput.GetAnalogActionHandle("menu_move");
     }
 
     private void OnDestroy()
@@ -419,7 +432,9 @@ public class SteamInputManager : MonoBehaviour
                    IsDigitalActionAvailable(controller, menuRightHandle) ||
                    IsDigitalActionAvailable(controller, menuSelectHandle) ||
                    IsDigitalActionAvailable(controller, menuSubmitHandle) ||
-                   IsDigitalActionAvailable(controller, menuCancelHandle);
+                   IsDigitalActionAvailable(controller, menuCancelHandle) ||
+                   IsDigitalActionAvailable(controller, menuInventoryHandle) ||
+                   IsAnalogActionAvailable(controller, menuMoveHandle);
         }
 
         return IsAnalogActionAvailable(controller, moveHandle) ||
@@ -522,6 +537,20 @@ public class SteamInputManager : MonoBehaviour
         return new Vector2(data.x, data.y);
     }
 
+    public Vector2 GetMenuMoveAxis()
+    {
+        if (!SteamManager.Initialized || SteamManager.OverlayActive) return Vector2.zero;
+        if (menuMoveHandle == default(InputAnalogActionHandle_t)) return Vector2.zero;
+
+        InputHandle_t controller = GetFirstController();
+        if (controller == default(InputHandle_t)) return Vector2.zero;
+
+        InputAnalogActionData_t data = SteamInput.GetAnalogActionData(controller, menuMoveHandle);
+        if (data.bActive == 0) return Vector2.zero;
+
+        return new Vector2(data.x, data.y);
+    }
+
     public Vector2 GetAimAxis()
     {
         if (!SteamManager.Initialized) return Vector2.zero;
@@ -546,6 +575,7 @@ public class SteamInputManager : MonoBehaviour
     public bool GetMenuSelectPressed() => IsJustPressed(menuSelectHandle);
     public bool GetMenuCancelPressed() => IsJustPressed(menuCancelHandle);
     public bool GetMenuSubmitPressed() => IsJustPressed(menuSubmitHandle);
+    public bool GetMenuInventoryPressed() => IsJustPressed(menuInventoryHandle);
     public bool GetPauseMenuPressed() => IsJustPressed(pauseMenuHandle);
     public bool GetInteractJustPressed() => IsJustPressed(interactHandle);
     public bool GetMenuUpHeld() => IsHeld(menuUpHandle);

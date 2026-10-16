@@ -49,6 +49,14 @@
 		{
 			"title"		"#Set_MenuControls"
 			"legacy_set"	"0"
+			"StickPadGyro"
+			{
+				"menu_move"
+				{
+					"title"	"#Action_MenuMove"
+					"input_mode"	"joystick_move"
+				}
+			}
 			"Button"
 			{
 				"menu_up"	{ "title" "#Action_MenuUp" }
@@ -58,6 +66,7 @@
 				"menu_select"	{ "title" "#Action_MenuSelect" }
 				"menu_cancel"	{ "title" "#Action_MenuCancel" }
 				"menu_submit"	{ "title" "#Action_MenuSubmit" }
+				"menu_inventory"	{ "title" "#Action_MenuInventory" }
 				"pause_menu"	{ "title" "#Action_ReturnToGame" }
 			}
 		}
@@ -69,6 +78,8 @@
 			"Set_InGameControls"	"In-Game Controls"
 			"Set_MenuControls"	"Menu Controls"
 			"Action_Move"		"Movement"
+			"Action_MenuMove"	"Menu Navigation"
+			"Action_MenuInventory"	"Inventory Toggle"
 			"Action_Aim"		"Aim"
 			"Action_MeleeAttack"	"Melee Attack"
 			"Action_ShieldThrow"	"Throw Shield"

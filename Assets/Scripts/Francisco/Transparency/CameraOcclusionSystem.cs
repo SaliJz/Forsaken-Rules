@@ -79,13 +79,14 @@ public class CameraOcclusionSystem : MonoBehaviour
     private Dictionary<Renderer, MaterialData> occludedObjects = new Dictionary<Renderer, MaterialData>();
     private HashSet<Renderer> currentlyOccluding = new HashSet<Renderer>();
     private List<Renderer> toRemove = new List<Renderer>();
+    private RaycastHit[] raycastHits = new RaycastHit[32];
 
     private void Start()
     {
         if (mainCamera == null) mainCamera = Camera.main;
         if (playerTransform == null)
         {
-            Debug.LogError("[CameraOcclusionSystem] playerTransform no está asignado.");
+            Debug.LogError("[CameraOcclusionSystem] playerTransform no estï¿½ asignado.");
             enabled = false;
         }
     }
@@ -99,17 +100,26 @@ public class CameraOcclusionSystem : MonoBehaviour
         float distance = direction.magnitude;
         direction.Normalize();
 
-        RaycastHit[] hits = Physics.SphereCastAll(
-            mainCamera.transform.position,
-            raycastRadius,
-            direction,
-            distance,
-            occlusionLayers,
-            QueryTriggerInteraction.Ignore
-        );
-
-        foreach (var hit in hits)
+        int hitCount;
+        while (true)
         {
+            hitCount = Physics.SphereCastNonAlloc(
+                mainCamera.transform.position,
+                raycastRadius,
+                direction,
+                raycastHits,
+                distance,
+                occlusionLayers,
+                QueryTriggerInteraction.Ignore
+            );
+
+            if (hitCount < raycastHits.Length) break;
+            System.Array.Resize(ref raycastHits, raycastHits.Length * 2);
+        }
+
+        for (int i = 0; i < hitCount; i++)
+        {
+            RaycastHit hit = raycastHits[i];
             if (hit.collider == null) continue;
             Renderer renderer = hit.collider.GetComponent<Renderer>();
             if (renderer != null && hit.transform != playerTransform)

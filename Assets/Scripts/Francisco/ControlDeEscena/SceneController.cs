@@ -11,7 +11,7 @@ public class SceneController : MonoBehaviour
     [SerializeField] private KeyCode _inputKey;
     [SerializeField] private UnityEvent OnKeyPressed;
 
-    [Header("Configuración Centralizada")]
+    [Header("Configuraciï¿½n Centralizada")]
     [SerializeField] private SceneShortcutData shortcutData;
 
     public bool IsTransitioning { get; private set; }
@@ -60,11 +60,13 @@ public class SceneController : MonoBehaviour
             return;
         }
 
+        if (IsTransitioning) return;
         StartCoroutine(LoadSceneWithFade(sceneName));
     }
 
     public void ReloadCurrentScene()
     {
+        if (IsTransitioning) return;
         StartCoroutine(LoadSceneWithFade(SceneManager.GetActiveScene().name));
     }
 
@@ -75,6 +77,12 @@ public class SceneController : MonoBehaviour
 
     private IEnumerator LoadSceneWithFade(string sceneName)
     {
+        if (!Application.CanStreamedLevelBeLoaded(sceneName))
+        {
+            Debug.LogError($"Scene '{sceneName}' is not available in the build settings.");
+            yield break;
+        }
+
         IsTransitioning = true;
 
         if (InventoryUIManager.Instance != null && InventoryUIManager.Instance.IsOpen)
@@ -89,6 +97,16 @@ public class SceneController : MonoBehaviour
             if (shieldController != null) shieldController.ForceRecallShield();
         }
 
+        AsyncOperation loadOperation = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Single);
+        if (loadOperation == null)
+        {
+            IsTransitioning = false;
+            Debug.LogError($"Could not start loading scene '{sceneName}'.");
+            yield break;
+        }
+
+        loadOperation.allowSceneActivation = false;
+
         if (FadeController.Instance != null)
         {
             yield return FadeController.Instance.FadeOut();
@@ -98,7 +116,16 @@ public class SceneController : MonoBehaviour
             Debug.LogWarning("FadeController.Instance is missing. Loading scene without fade.");
         }
 
-        SceneManager.LoadScene(sceneName);
+        while (loadOperation.progress < 0.9f)
+        {
+            yield return null;
+        }
+
+        loadOperation.allowSceneActivation = true;
+        while (!loadOperation.isDone)
+        {
+            yield return null;
+        }
     }
 
     public void OnTutorialFinished()

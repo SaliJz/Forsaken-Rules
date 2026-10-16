@@ -1,6 +1,7 @@
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class MerchantDialogHandler : MonoBehaviour
@@ -150,6 +151,8 @@ public class MerchantDialogHandler : MonoBehaviour
         {
             converseButton.gameObject.SetActive(conversationCount < 5);
         }
+
+        FocusFirstAvailableOption();
     }
 
     #endregion
@@ -160,6 +163,7 @@ public class MerchantDialogHandler : MonoBehaviour
     {
         Debug.Log("OnAcceptPactOption INICIO");
         optionsPanel?.SetActive(false);
+        ReleaseOptionFocus();
 
         Pact currentPact = merchantManager.GetCurrentPactOffer();
         if (currentPact == null)
@@ -198,6 +202,7 @@ public class MerchantDialogHandler : MonoBehaviour
     {
         if (converseButton == null) return;
         optionsPanel?.SetActive(false);
+        ReleaseOptionFocus();
         conversationCount++;
 
         int repChange = 0;
@@ -287,12 +292,14 @@ public class MerchantDialogHandler : MonoBehaviour
             }
 
             backButton?.gameObject.SetActive(true);
+            FocusFirstAvailableOption();
         }
     }
 
     public void OnBackButton()
     {
         optionsPanel?.SetActive(false);
+        ReleaseOptionFocus();
         waitingForPactButtons = false;
         merchantManager?.ClearCurrentPact();
         dialogManager.ForceEndDialog();
@@ -326,7 +333,35 @@ public class MerchantDialogHandler : MonoBehaviour
             }
 
             backButton?.gameObject.SetActive(true);
+            FocusFirstAvailableOption();
         }
+    }
+
+    private void FocusFirstAvailableOption()
+    {
+        Button target = null;
+
+        if (acceptButton != null && acceptButton.gameObject.activeInHierarchy && acceptButton.interactable)
+            target = acceptButton;
+        else if (converseButton != null && converseButton.gameObject.activeInHierarchy && converseButton.interactable)
+            target = converseButton;
+        else if (backButton != null && backButton.gameObject.activeInHierarchy && backButton.interactable)
+            target = backButton;
+
+        SteamInputManager.Instance?.ActivateMenuSet();
+
+        if (target != null && EventSystem.current != null)
+            EventSystem.current.SetSelectedGameObject(target.gameObject);
+    }
+
+    private void ReleaseOptionFocus()
+    {
+        GameObject selected = EventSystem.current != null ? EventSystem.current.currentSelectedGameObject : null;
+        if (EventSystem.current != null && selected != null &&
+            (selected == acceptButton?.gameObject || selected == backButton?.gameObject || selected == converseButton?.gameObject))
+            EventSystem.current.SetSelectedGameObject(null);
+
+        SteamInputManager.Instance?.ActivateInGameSet();
     }
 
     public void ChangeRoomMerchant(MerchantRoomManager refe) => merchantManager = refe;

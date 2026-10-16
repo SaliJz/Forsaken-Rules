@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.UI;
 using UnityEngine.SceneManagement;
 
 #region Configuracion
@@ -16,6 +15,9 @@ public class SteamInputManager : MonoBehaviour
     private InputHandle_t[] controllerHandles = new InputHandle_t[Constants.STEAM_INPUT_MAX_COUNT];
     private int activeControllerCount;
     private bool actionsInitialized;
+    private bool steamInputReady;
+    private bool menuActionSetActive;
+    private readonly List<Gamepad> nativeGamepadsDisabledBySteam = new List<Gamepad>();
 
     private InputActionSetHandle_t inGameSetHandle;
     private InputActionSetHandle_t menuSetHandle;
@@ -84,6 +86,11 @@ public class SteamInputManager : MonoBehaviour
 
         bool manifestSet = SteamInput.SetInputActionManifestFilePath(fullPath);
         bool inputInitialized = SteamInput.Init(false);
+        if (!manifestSet || !inputInitialized)
+        {
+            Debug.LogError($"[SteamInput] No se pudo inicializar Steam Input (manifest={manifestSet}, init={inputInitialized}). Se mantiene el mando nativo de Unity.");
+            yield break;
+        }
 
         float timeout = 8f;
         float elapsed = 0f;
@@ -105,34 +112,35 @@ public class SteamInputManager : MonoBehaviour
             elapsed += 0.25f;
         }
 
-        if (inGameSetHandle == default(InputActionSetHandle_t))
+        if (inGameSetHandle == default(InputActionSetHandle_t) || menuSetHandle == default(InputActionSetHandle_t))
         {
-            Debug.LogError("[SteamInput] No se pudo cargar InGameControls tras reintentar durante 8s...");
+            Debug.LogError("[SteamInput] No se pudieron cargar los Action Sets. Se mantiene el mando nativo de Unity.");
             yield break;
         }
 
-        InputSystemUIInputModule uiInputModule = FindAnyObjectByType<InputSystemUIInputModule>();
-        if (uiInputModule != null) uiInputModule.enabled = false;
-
-        foreach (var device in InputSystem.devices)
-        {
-            if (device is Gamepad)
-            {
-                InputSystem.DisableDevice(device);
-            }
-        }
-
-        Debug.Log("<color=#00FFCC>[SteamInputManager]</color> Escudo de hardware aplicado: Control exclusivo para Steam.");
+        steamInputReady = true;
+        Debug.Log("<color=#00FFCC>[SteamInputManager]</color> Teclado y raton siguen disponibles; el mando se enruta por Steam cuando esta conectado.");
     }
 
     private void Update()
     {
-        if (!SteamManager.Initialized) return;
+        if (!SteamManager.Initialized || !steamInputReady)
+        {
+            SetNativeGamepadsBlocked(false);
+            return;
+        }
 
         SteamInput.RunFrame();
         RefreshControllers();
 
-        if (activeControllerCount <= 0) return;
+        if (activeControllerCount <= 0)
+        {
+            menuActionSetActive = false;
+            previousFrameStates.Clear();
+            currentFrameStates.Clear();
+            SetNativeGamepadsBlocked(false);
+            return;
+        }
 
         if (!actionsInitialized)
         {
@@ -140,15 +148,14 @@ public class SteamInputManager : MonoBehaviour
             actionsInitialized = true;
         }
 
+        if (IsMenuScene() && !menuActionSetActive)
+            ActivateMenuSet();
+
+        SetNativeGamepadsBlocked(HasUsableSteamActions(GetFirstController()));
         UpdateFrameStates();
         HandleMenuNavigation();
 
         if (SteamManager.OverlayActive) return;
-
-        if (IsMenuScene())
-        {
-            ActivateMenuSet();
-        }
     }
 
     private void UpdateFrameStates()
@@ -184,7 +191,7 @@ public class SteamInputManager : MonoBehaviour
 
     private void HandleMenuNavigation()
     {
-        if (!IsMenuScene() && !PauseController.IsGamePaused) return;
+        if (!IsMenuScene() && !PauseController.IsGamePaused && !menuActionSetActive) return;
         if (EventSystem.current == null) return;
 
         bool inputDetectado = GetMenuUpHeld() || GetMenuDownHeld() || GetMenuLeftHeld() || GetMenuRightHeld() ||
@@ -350,6 +357,7 @@ public class SteamInputManager : MonoBehaviour
     {
         if (instance == this)
         {
+            SetNativeGamepadsBlocked(false);
             instance = null;
         }
     }
@@ -399,6 +407,60 @@ public class SteamInputManager : MonoBehaviour
         activeControllerCount = SteamInput.GetConnectedControllers(controllerHandles);
     }
 
+    private bool HasUsableSteamActions(InputHandle_t controller)
+    {
+        if (controller == default(InputHandle_t)) return false;
+
+        if (menuActionSetActive || PauseController.IsGamePaused || IsMenuScene())
+        {
+            return IsDigitalActionAvailable(controller, menuUpHandle) ||
+                   IsDigitalActionAvailable(controller, menuDownHandle) ||
+                   IsDigitalActionAvailable(controller, menuLeftHandle) ||
+                   IsDigitalActionAvailable(controller, menuRightHandle) ||
+                   IsDigitalActionAvailable(controller, menuSelectHandle) ||
+                   IsDigitalActionAvailable(controller, menuSubmitHandle) ||
+                   IsDigitalActionAvailable(controller, menuCancelHandle);
+        }
+
+        return IsAnalogActionAvailable(controller, moveHandle) ||
+               IsAnalogActionAvailable(controller, aimHandle) ||
+               IsDigitalActionAvailable(controller, meleeAttackHandle) ||
+               IsDigitalActionAvailable(controller, dashHandle);
+    }
+
+    private bool IsDigitalActionAvailable(InputHandle_t controller, InputDigitalActionHandle_t action)
+    {
+        return action != default(InputDigitalActionHandle_t) &&
+               SteamInput.GetDigitalActionData(controller, action).bActive != 0;
+    }
+
+    private bool IsAnalogActionAvailable(InputHandle_t controller, InputAnalogActionHandle_t action)
+    {
+        return action != default(InputAnalogActionHandle_t) &&
+               SteamInput.GetAnalogActionData(controller, action).bActive != 0;
+    }
+
+    private void SetNativeGamepadsBlocked(bool blocked)
+    {
+        if (blocked)
+        {
+            foreach (Gamepad gamepad in Gamepad.all)
+            {
+                if (gamepad == null || !gamepad.enabled) continue;
+                InputSystem.DisableDevice(gamepad);
+                nativeGamepadsDisabledBySteam.Add(gamepad);
+            }
+            return;
+        }
+
+        foreach (Gamepad gamepad in nativeGamepadsDisabledBySteam)
+        {
+            if (gamepad != null && gamepad.added && !gamepad.enabled)
+                InputSystem.EnableDevice(gamepad);
+        }
+        nativeGamepadsDisabledBySteam.Clear();
+    }
+
     private InputHandle_t GetFirstController()
     {
         if (!SteamManager.Initialized) return default(InputHandle_t);
@@ -418,6 +480,7 @@ public class SteamInputManager : MonoBehaviour
         if (inGameSetHandle == default(InputActionSetHandle_t)) return;
 
         SteamInput.ActivateActionSet(controller, inGameSetHandle);
+        menuActionSetActive = false;
         LogCambioDeSet("GAME CONTROLS (InGame)");
     }
 
@@ -428,6 +491,7 @@ public class SteamInputManager : MonoBehaviour
         if (menuSetHandle == default(InputActionSetHandle_t)) return;
 
         SteamInput.ActivateActionSet(controller, menuSetHandle);
+        menuActionSetActive = true;
         LogCambioDeSet("MENU CONTROLS (Menus/Pausa)");
     }
     #endregion

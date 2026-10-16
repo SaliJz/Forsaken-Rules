@@ -3,6 +3,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.UI;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
 public class GamepadPointer : MonoBehaviour
 {
@@ -98,11 +99,7 @@ public class GamepadPointer : MonoBehaviour
 
     private void Update()
     {
-        if (!SteamManager.Initialized)
-        {
-            if (uiInputModule != null && !uiInputModule.enabled)
-                uiInputModule.enabled = true;
-        }
+        RefreshUIModuleMode();
 
         if (SteamManager.Initialized && SteamManager.OverlayActive)
             return;
@@ -228,6 +225,8 @@ public class GamepadPointer : MonoBehaviour
             }
         }
 
+        RefreshUIModuleMode();
+
         bool isCurrentDeviceGamepad = IsGamepadMode();
 
         if (isCurrentDeviceGamepad && EventSystem.current?.currentSelectedGameObject != null)
@@ -313,13 +312,29 @@ public class GamepadPointer : MonoBehaviour
         }
         else
         {
-            uiInputModule.enabled = false;
+            uiInputModule.enabled = ShouldKeepUnityUIModuleEnabled();
 
             Cursor.visible = false;
 
             if (virtualCursor != null)
                 virtualCursor.gameObject.SetActive(true);
         }
+    }
+
+    private void RefreshUIModuleMode()
+    {
+        if (uiInputModule == null) return;
+
+        bool shouldBeEnabled = !IsGamepadMode() || ShouldKeepUnityUIModuleEnabled();
+        if (uiInputModule.enabled != shouldBeEnabled)
+            uiInputModule.enabled = shouldBeEnabled;
+    }
+
+    private bool ShouldKeepUnityUIModuleEnabled()
+    {
+        return SceneManager.GetActiveScene().name == "MainMenu" ||
+               PauseController.IsGamePaused ||
+               (EventSystem.current != null && EventSystem.current.currentSelectedGameObject != null);
     }
 
     private void WarpHardwareMouseToVirtualCursor()

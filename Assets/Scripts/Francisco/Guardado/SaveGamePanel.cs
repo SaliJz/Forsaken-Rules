@@ -1,3 +1,4 @@
+using System.Collections;
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
@@ -51,6 +52,34 @@ public class SaveGamePanel : MonoBehaviour
         canvasGroup.interactable = false;
 
         SetupButtons();
+    }
+
+    private void LateUpdate()
+    {
+        if (!isPanelOpen || canvasGroup == null || !canvasGroup.interactable || EventSystem.current == null)
+            return;
+
+        GameObject selected = EventSystem.current.currentSelectedGameObject;
+        if (selected != null && selected.transform.IsChildOf(canvasGroup.transform))
+            return;
+
+        GameObject buttonToFocus = GetButtonToFocus();
+        if (buttonToFocus != null && buttonToFocus.activeInHierarchy)
+            EventSystem.current.SetSelectedGameObject(buttonToFocus);
+    }
+
+    private GameObject GetButtonToFocus()
+    {
+        if (firstSelectedButton != null && firstSelectedButton.activeInHierarchy)
+            return firstSelectedButton;
+
+        if (playButton != null && playButton.gameObject.activeInHierarchy)
+            return playButton.gameObject;
+
+        if (tutorialButton != null && tutorialButton.gameObject.activeInHierarchy)
+            return tutorialButton.gameObject;
+
+        return null;
     }
 
     private void SetupButtons()
@@ -169,14 +198,23 @@ public class SaveGamePanel : MonoBehaviour
             canvasGroup.alpha = 1f;
         }
 
-        GameObject buttonToFocus = firstSelectedButton != null ? firstSelectedButton : (playButton != null ? playButton.gameObject : null);
+        GameObject buttonToFocus = GetButtonToFocus();
 
-        bool isGamepadModeActive = GamepadPointer.Instance != null && GamepadPointer.Instance.IsGamepadMode();
-
-        if (buttonToFocus != null && isGamepadModeActive)
+        if (buttonToFocus != null && buttonToFocus.activeInHierarchy && EventSystem.current != null)
         {
             EventSystem.current.SetSelectedGameObject(buttonToFocus);
+            StartCoroutine(FocusButtonAfterOpening(buttonToFocus));
         }
+    }
+
+    private IEnumerator FocusButtonAfterOpening(GameObject buttonToFocus)
+    {
+        yield return new WaitForEndOfFrame();
+
+        if (!isPanelOpen || buttonToFocus == null || !buttonToFocus.activeInHierarchy || EventSystem.current == null)
+            yield break;
+
+        EventSystem.current.SetSelectedGameObject(buttonToFocus);
     }
 
     public void HidePanel()

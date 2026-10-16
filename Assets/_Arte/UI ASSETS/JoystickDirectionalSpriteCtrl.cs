@@ -58,7 +58,7 @@ public class JoystickDirectionalSpriteCtrl : MonoBehaviour
     {
         DetectLastInput();
 
-        Vector2 stick = Gamepad.current != null? Gamepad.current.leftStick.ReadValue() : Vector2.zero;
+        Vector2 stick = GetDirectionalInput();
         hasValidDirection = stick.magnitude >= deadzone;
 
         bool shouldShow = lastInputWasGamepad && hasValidDirection;
@@ -78,9 +78,30 @@ public class JoystickDirectionalSpriteCtrl : MonoBehaviour
 
     #region Internal Methods
 
+    private Vector2 GetDirectionalInput()
+    {
+        if (SteamManager.Initialized && SteamInputManager.Instance != null)
+        {
+            Vector2 steamMove = SteamInputManager.Instance.GetMoveAxis();
+            if (steamMove.magnitude >= deadzone)
+                return steamMove;
+        }
+
+        if (Gamepad.current != null && Gamepad.current.enabled)
+            return Gamepad.current.leftStick.ReadValue();
+
+        return Vector2.zero;
+    }
+
     private void DetectLastInput()
     {
-        if (Gamepad.current != null && GamepadHasInput(Gamepad.current))
+        bool steamGamepadInput = SteamManager.Initialized && SteamInputManager.Instance != null &&
+            (SteamInputManager.Instance.GetMoveAxis().magnitude >= deadzone ||
+             SteamInputManager.Instance.GetMeleeAttackPressed() ||
+             SteamInputManager.Instance.GetDashPressed() ||
+             SteamInputManager.Instance.GetInteractPressed());
+
+        if (steamGamepadInput || (Gamepad.current != null && Gamepad.current.enabled && GamepadHasInput(Gamepad.current)))
         {
             lastInputWasGamepad = true;
         }
